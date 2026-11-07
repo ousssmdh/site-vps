@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Plan du site pour les moteurs de recherche (pages françaises et anglaises).
+     Adresse du site : « adresse_site » dans config/infos-vps.ini. -->
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <url><loc>https://www.vps-securite.fr/</loc></url>
+  <url><loc>https://www.vps-securite.fr/en/</loc></url>
+  <url><loc>https://www.vps-securite.fr/entreprise.html</loc></url>
+  <url><loc>https://www.vps-securite.fr/en/company.html</loc></url>
+  <url><loc>https://www.vps-securite.fr/prestations.html</loc></url>
+  <url><loc>https://www.vps-securite.fr/en/services.html</loc></url>
+  <url><loc>https://www.vps-securite.fr/galerie.html</loc></url>
+  <url><loc>https://www.vps-securite.fr/en/gallery.html</loc></url>
+  <url><loc>https://www.vps-securite.fr/devis.html</loc></url>
+  <url><loc>https://www.vps-securite.fr/en/quote.html</loc></url>
+  <url><loc>https://www.vps-securite.fr/contact.html</loc></url>
+  <url><loc>https://www.vps-securite.fr/en/contact.html</loc></url>
+  <url><loc>https://www.vps-securite.fr/mentions-legales.html</loc></url>
+  <url><loc>https://www.vps-securite.fr/en/legal-notice.html</loc></url>
+  <url><loc>https://www.vps-securite.fr/confidentialite.html</loc></url>
+  <url><loc>https://www.vps-securite.fr/en/privacy.html</loc></url>
+</urlset>

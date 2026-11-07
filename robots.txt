@@ -1,0 +1,7 @@
+# robots.txt — site VPS – Vigilance Protection Sécurité
+# Adresse du site : « adresse_site » dans config/infos-vps.ini.
+# Tant que les pages contiennent la balise « noindex », elles ne seront pas indexées.
+User-agent: *
+Allow: /
+
+Sitemap: https://www.vps-securite.fr/sitemap.xml
