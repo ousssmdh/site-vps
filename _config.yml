@@ -1,0 +1,8 @@
+# Configuration lue par GitHub Pages (traitement Jekyll par défaut).
+# Elle empêche la publication, sur le site en ligne, des fichiers de travail
+# ci-dessous. Elle n'a aucun effet lorsque vous ouvrez le site en local.
+# Le dossier config/ est publié : le site y lit les informations à afficher.
+# Attention : avec un dépôt public, tous ces fichiers restent visibles dans le dépôt.
+exclude:
+  - README.md
+  - outils/
