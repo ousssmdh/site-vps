@@ -55,7 +55,7 @@ site-vps/
 ├── fonts/                   Police Geist (+ sa licence libre, licence-geist.txt)
 ├── images/
 │   ├── logo/                logo-vps-160.webp (en-tête), logo-vps-800.webp (référencement), apple-touch-icon.png
-│   ├── ambiance/            6 visuels générés par IA : 4 vues de nuit + 2 scènes « sécurité incendie »
+│   ├── ambiance/            7 visuels générés par IA : 4 vues de nuit, 2 scènes « sécurité incendie », 1 agent cynophile
 │   ├── galerie/             emplacements photo « …-a-remplacer.svg » (versions « …-a-remplacer-en.svg » en anglais)
 │   └── partage/             vps-partage.jpg (aperçu lors d'un partage de lien)
 └── outils/                  FACULTATIF (Python 3), utile avant la mise en ligne
@@ -128,6 +128,7 @@ Sources : **autorisation d'exercer délivrée par le CNAPS** (document fourni) e
 |---|---|---|
 | Autorisation d'exercer | n° AUT-013-2123-06-12-20240936040 (CNAPS) | pied de page (toutes les pages), accueil, menu mobile, devis, entreprise, mentions légales, image de partage |
 | Activité autorisée | Surveillance ou gardiennage | entreprise, prestations, mentions légales |
+| Spécialité (indiquée par VPS) | Agents de sécurité cynophiles | accueil, entreprise, prestations, devis |
 | Autre activité (indiquée par VPS) | Sécurité incendie | accueil, entreprise, prestations, devis |
 | Dénomination | VIGILANCE PROTECTION SECURITE (sigle VPS SECURITE) | pied de page, entreprise, mentions, confidentialité, devis |
 | Forme juridique | SAS | entreprise, mentions légales |
@@ -145,6 +146,7 @@ Sources : **autorisation d'exercer délivrée par le CNAPS** (document fourni) e
 - **Article L612-15** : tout document informatif, contractuel ou publicitaire (site, plaquette, publication sur les réseaux sociaux, devis) doit reproduire le **numéro d'autorisation** et le texte de l'**article L612-14** : « L'autorisation d'exercice ne confère aucune prérogative de puissance publique à l'entreprise ou aux personnes qui en bénéficient. » Ces deux mentions figurent dans le pied de page de chaque page : ne les supprimez pas.
 - Le même article **interdit** de faire état de la qualité d'ancien fonctionnaire de police ou d'ancien militaire d'un dirigeant ou d'un salarié.
 - L'autorisation du CNAPS couvre la **surveillance ou le gardiennage**. La **sécurité incendie** n'est pas une activité soumise à cette autorisation : elle exige des agents titulaires de la qualification SSIAP adaptée au site (SSIAP 1, 2 ou 3, arrêté du 2 mai 2005). L'article L612-2 impose par ailleurs qu'une entreprise de surveillance ou de gardiennage ne propose que des prestations liées à ces activités : faites confirmer que vos missions de sécurité incendie s'inscrivent dans ce cadre.
+- Les **agents cynophiles** exercent dans le cadre de l'activité de surveillance ou de gardiennage : chacun doit détenir une carte professionnelle du CNAPS portant la mention cynophile, et ses chiens doivent être identifiés et à jour de leurs obligations (vaccins, assurance).
 - Le logo représente des drones : n'annoncez pas de surveillance par drone, de protection rapprochée ou de télésurveillance sans avoir vérifié que VPS dispose des autorisations correspondantes.
 
 ---
@@ -233,12 +235,13 @@ Balises `<title>` et `<meta name="description">` en haut de chaque page (ainsi q
 
 ## 6. Photos, logo et visuels
 
-### Visuels d'ambiance et visuels « sécurité incendie »
+### Visuels d'ambiance, « sécurité incendie » et « agents cynophiles »
 
-Les 6 images du dossier `images/ambiance/` ont été **générées par intelligence artificielle** pour illustrer le site :
+Les 7 images du dossier `images/ambiance/` ont été **générées par intelligence artificielle** pour illustrer le site :
 
 - **4 photos aériennes de nuit** (sites, bureaux, commerces, événements) : elles ne montrent ni l'équipe, ni les sites, ni les clients de VPS (aucune personne reconnaissable, aucun logo). Vous avez choisi de les conserver : la mention « Visuel d'ambiance provisoire » a été retirée le 6 novembre 2026 ;
 - **2 visuels « sécurité incendie »** (ajoutés le 9 novembre 2026) : un agent en tenue « SÉCURITÉ INCENDIE » devant le tableau du système de sécurité incendie (SSI), et une ronde de contrôle d'un extincteur et d'un robinet d'incendie armé. Les agents représentés ne sont pas des membres de l'équipe VPS (visages non visibles, aucun logo) : vous pourrez les remplacer par de vraies photos de vos agents, avec leur accord.
+- **1 visuel « agents cynophiles »** (ajouté le 9 novembre 2026) : un agent en tenue « SÉCURITÉ », vu de dos, en ronde de nuit avec son chien (berger belge malinois) tenu en laisse dans la cour d'un entrepôt. L'agent représenté n'est pas un membre de l'équipe VPS : vous pourrez le remplacer par une vraie photo de l'un de vos agents cynophiles, avec son accord.
 
 Pour changer une image, enregistrez la nouvelle photo **sous le même nom** dans `images/ambiance/`.
 
@@ -250,10 +253,11 @@ Pour changer une image, enregistrez la nouvelle photo **sous le même nom** dans
 | `marche-nuit.jpg` | onglet « Événements », prestation « Sécurité événementielle » |
 | `incendie-poste-ssi.jpg` | onglet « Sécurité incendie » de l'accueil |
 | `incendie-ronde-extincteurs.jpg` | prestation « Sécurité incendie » |
+| `agent-cynophile-ronde.jpg` | onglet « Agents cynophiles » de l'accueil, prestation « Agents de sécurité cynophiles » |
 
 Les pages anglaises utilisent les mêmes images.
 
-**Format conseillé** pour une photo de remplacement : JPG, environ 1600 à 2400 px de large, moins de 400 Ko, image plutôt sombre, sujet au centre (le titre s'affiche en haut et les boutons en bas). Les vues de nuit sont décoratives : laissez `alt=""`. Les deux visuels « sécurité incendie » sont décrits (attribut `alt`) : si vous les remplacez, adaptez cette description dans `index.html`, `prestations.html` et leurs versions anglaises, et ajustez au besoin leur cadrage (règles `.visuel-incendie-ssi` et `.visuel-incendie-ronde` de `css/style.css`).
+**Format conseillé** pour une photo de remplacement : JPG, environ 1600 à 2400 px de large, moins de 400 Ko, image plutôt sombre, sujet au centre (le titre s'affiche en haut et les boutons en bas). Les vues de nuit sont décoratives : laissez `alt=""`. Les trois visuels « sécurité incendie » et « agents cynophiles » sont décrits (attribut `alt`) : si vous les remplacez, adaptez cette description dans `index.html`, `prestations.html` et leurs versions anglaises, et ajustez au besoin leur cadrage (règles `.visuel-incendie-ssi`, `.visuel-incendie-ronde` et `.visuel-cynophile` de `css/style.css`).
 
 ### Galerie
 
@@ -282,14 +286,16 @@ Le logo officiel fourni est intégré (détouré en cercle) et **mis en avant** 
 
 ## 7. Prestations et références
 
-### Prestations (intitulés provisoires « à confirmer »)
+### Prestations
 
 Dans `prestations.html` (et `en/services.html`), chaque prestation est un bloc `<article class="service" id="…">` : modifiez le titre, la description et la liste « Pour qui ? ». Supprimez les blocs qui ne correspondent pas à l'activité de VPS, ainsi que leur lien dans l'accès rapide en haut de page. Mettez aussi à jour :
 
-- les **onglets « Prestations »** (quatre onglets, dont « Sécurité incendie ») et les colonnes « Comment nous intervenons » des deux pages d'accueil (les liens « En savoir plus » pointent vers les `id` des blocs) ;
+- les **onglets « Prestations »** (cinq onglets, dont « Sécurité incendie » et « Agents cynophiles ») et les colonnes « Comment nous intervenons » des deux pages d'accueil (les liens « En savoir plus » pointent vers les `id` des blocs) ;
 - la liste « Besoin » du formulaire (`<select id="besoin">` dans `devis.html` et `en/quote.html`).
 
 **Sécurité incendie** : prestation ajoutée le 5 novembre 2026 et validée par VPS le 6 novembre 2026.
+
+**Agents cynophiles** : prestation ajoutée le 9 novembre 2026 à la demande de VPS (bloc `id="cynophile"` de la page Prestations, 5e onglet et question de la FAQ de l'accueil, choix « Agents de sécurité cynophiles » du formulaire de devis).
 
 ### Références
 
