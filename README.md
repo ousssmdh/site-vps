@@ -4,6 +4,8 @@ Site statique multipage en HTML, CSS et JavaScript simples : aucun serveur, aucu
 
 Le site existe en **français** (racine du site) et en **anglais** (dossier `en/`) : un bouton **FR / EN** en haut de chaque page mène à la même page dans l'autre langue.
 
+Il s'affiche en **clair** ou en **sombre** : un bouton **lune / soleil** en haut de chaque page (et la ligne « Affichage » du menu sur téléphone) passe d'un affichage à l'autre. L'affichage clair est proposé par défaut et le choix de chaque visiteur est mémorisé (section 3).
+
 > **Presque prêt.** Il reste à ajouter l'**adresse e-mail** (dans `config/infos-vps.ini`) et les **photos de la galerie** (section 6). Jusqu'à la mise en ligne :
 > - le **formulaire de devis est inactif** tant qu'aucun service de réception n'est branché (section 8) : rien ne peut être envoyé et la page l'indique clairement ;
 > - chaque page contient une balise **`noindex`** qui empêche son référencement (à lever le jour de la mise en ligne, section 9).
@@ -50,8 +52,9 @@ site-vps/
 ├── _config.yml              Exclut README.md et outils/ du site publié
 ├── README.md                Ce guide
 ├── config/infos-vps.ini     LE fichier à remplir : coordonnées, mentions légales, formulaire, textes anglais
-├── css/style.css            Mise en forme (couleurs modifiables en haut du fichier)
+├── css/style.css            Mise en forme (couleurs : section 2 pour l'affichage sombre, section 18 pour le clair)
 ├── js/main.js               Menu, onglets, carrousel, animations, lecture de config/infos-vps.ini, formulaire
+├── js/theme.js              Affichage clair / sombre (affichage proposé par défaut réglable en haut du fichier)
 ├── fonts/                   Police Geist (+ sa licence libre, licence-geist.txt)
 ├── images/
 │   ├── logo/                logo-vps-160.webp (en-tête), logo-vps-800.webp (référencement), apple-touch-icon.png
@@ -87,7 +90,7 @@ python outils/verifier_site.py                 # liens, images, polices, ancres 
 python outils/verifier_site.py --publication   # contrôle final : échoue s'il reste un point à traiter
 ```
 
-**Tests manuels conseillés** : bouton FR / EN sur chaque page, menu sur téléphone (bouton « Menu »), navigation au clavier (`Tab`, `Maj + Tab`, `Entrée`, `Échap` pour fermer le menu), carrousel de la galerie, zoom à 200 %, affichage sur un vrai téléphone.
+**Tests manuels conseillés** : bouton FR / EN et bouton lune / soleil (affichage clair / sombre) sur chaque page, menu sur téléphone (bouton « Menu »), navigation au clavier (`Tab`, `Maj + Tab`, `Entrée`, `Échap` pour fermer le menu), carrousel de la galerie, zoom à 200 %, affichage sur un vrai téléphone.
 
 ---
 
@@ -102,9 +105,10 @@ Direction **« industrielle et éditoriale »**, validée sur maquette et inspir
 - en-tête transparent qui devient opaque au défilement, **menu plein écran** sur téléphone et tablette ;
 - **logo mis en avant** : grand emblème sur l'accueil (section « L'entreprise »), dans « VPS en bref » (page L'entreprise), sur la page Contact, dans le panneau de la demande de devis et dans le pied de page ;
 - bouton **FR / EN** dans l'en-tête (ainsi que dans le menu mobile et le pied de page) : il mène à la même page dans l'autre langue ;
+- **affichage clair ou sombre** : bouton lune / soleil dans l'en-tête et ligne « Affichage » dans le menu mobile. Les photos, les en-têtes posés sur une photo et les grands appels finaux restent sombres dans les deux affichages, pour que leurs textes restent lisibles ;
 - pied de page avec le grand mot « VIGILANCE » et les mentions obligatoires.
 
-**Couleurs**, réglables en haut de `css/style.css` :
+**Couleurs de l'affichage sombre**, réglables en haut de `css/style.css` (section 2) :
 
 | Variable | Couleur | Usage |
 |---|---|---|
@@ -113,6 +117,22 @@ Direction **« industrielle et éditoriale »**, validée sur maquette et inspir
 | `--accent` | `#3d8bff` | bleu électrique du logo, sur fond sombre (numéros, onglet actif) |
 | `--accent-clair` | `#0769da` | même bleu, sur fond clair |
 | `--ambre` | `#e9c47a` | repères provisoires (« À compléter », « À valider ») |
+
+### Affichage clair / sombre
+
+- **Affichage proposé à un nouveau visiteur** : clair. Pour le changer, ouvrez `js/theme.js` et remplacez `'clair'` par `'sombre'` (ou par `'auto'` pour suivre le réglage de l'appareil du visiteur) sur la ligne `var AFFICHAGE_PAR_DEFAUT = 'clair';`.
+- **Choix du visiteur** : mémorisé dans son navigateur (stockage local, clé `vps-affichage`), sans cookie ; la politique de confidentialité le mentionne. Sans JavaScript, le site s'affiche en sombre et le bouton est masqué.
+- **Couleurs de l'affichage clair** : section 18 de `css/style.css`.
+
+| Variable (affichage clair) | Couleur | Usage |
+|---|---|---|
+| `--encre` | `#ffffff` | fond principal |
+| `--encre-2` | `#eef1f5` | fond des cartes et des emplacements d'images |
+| `--papier` | `#05080f` | texte principal (bleu nuit du logo) |
+| `--doux` | `#545d6b` | texte secondaire |
+| `--accent` | `#0769da` | bleu du logo, lisible sur fond clair |
+
+Les sections claires « Pourquoi VPS », « VPS en bref », « Valeurs », ainsi que les pages légales, gardent leur fond gris-bleu très clair (`#f2f4f7`) dans les deux affichages.
 
 **Typographie** : Geist (police libre, licence SIL Open Font License 1.1, voir `fonts/licence-geist.txt`, hébergée avec le site) et, pour les étiquettes, la police à chasse fixe de l'appareil du visiteur.
 
@@ -216,7 +236,7 @@ Exemple :
 
 ### Menu et pied de page
 
-Ils sont **répétés dans les 19 pages HTML** (10 en français, 9 en anglais). Toute modification doit être faite dans chaque fichier : utilisez « Rechercher et remplacer dans les fichiers » (Visual Studio Code : `Ctrl + Maj + H`).
+Ils sont **répétés dans les 17 pages HTML** (9 en français, dont la page 404, et 8 en anglais). Toute modification doit être faite dans chaque fichier : utilisez « Rechercher et remplacer dans les fichiers » (Visual Studio Code : `Ctrl + Maj + H`).
 
 ### Titres et descriptions
 
@@ -412,7 +432,7 @@ Source : documentation GitHub « Managing a custom domain for your GitHub Pages 
 ## 12. Sécurité et données
 
 - Aucun secret, mot de passe, clé d'API ni donnée personnelle dans le code : tout ce qui est publié est public.
-- Le site ne dépose aucun cookie et ne charge aucune ressource externe (police, script, carte, vidéo, outil de statistiques) ; il lit seulement son propre fichier `config/infos-vps.ini`. Si vous en ajoutez, mettez à jour la politique de confidentialité et vérifiez si un recueil du consentement est nécessaire.
+- Le site ne dépose aucun cookie et ne charge aucune ressource externe (police, script, carte, vidéo, outil de statistiques) ; il lit seulement son propre fichier `config/infos-vps.ini`. Seul le choix d'affichage clair ou sombre d'un visiteur est enregistré dans son propre navigateur (stockage local), à sa demande ; la politique de confidentialité l'indique. Si vous en ajoutez, mettez à jour la politique de confidentialité et vérifiez si un recueil du consentement est nécessaire.
 - Le formulaire invite les visiteurs à ne transmettre aucune information sensible (codes d'accès, plans de sécurité). Faites arriver les demandes dans une boîte e-mail à accès restreint.
 - Ne publiez pas le document d'autorisation du CNAPS lui-même : le numéro suffit.
 - Conservez les preuves : accords des références, autorisations de droit à l'image.

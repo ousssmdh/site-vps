@@ -15,6 +15,7 @@
       → INACTIF tant qu'aucune adresse de réception n'est renseignée
         (adresse_reception dans config/infos-vps.ini). Voir README.md.
    Les messages existent en français et en anglais (pages du dossier en/).
+   L'affichage clair / sombre est géré à part, par js/theme.js.
    ========================================================================== */
 (function () {
   'use strict';

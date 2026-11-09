@@ -30,6 +30,8 @@
   <link rel="icon" href="favicon.ico" sizes="16x16 32x32 48x48">
   <link rel="apple-touch-icon" href="images/logo/apple-touch-icon.png">
   <link rel="preload" href="fonts/geist-latin-wght-normal.woff2" as="font" type="font/woff2" crossorigin>
+  <!-- js/theme.js : affichage clair ou sombre, appliqué avant l'affichage de la page (sans clignotement). -->
+  <script src="js/theme.js"></script>
   <link rel="stylesheet" href="css/style.css">
   <script>document.documentElement.className = document.documentElement.className.replace('no-js', 'js');</script>
   <!-- js/main.js lit aussi config/infos-vps.ini : les informations s'affichent sans rien installer. -->
@@ -54,6 +56,8 @@
         </ul>
       </nav>
       <div class="entete-actions">
+        <!-- Bouton d'affichage clair / sombre (js/theme.js) -->
+        <button class="bouton-theme" type="button" data-bascule-theme><svg class="icone-lune" viewBox="0 0 16 16" width="16" height="16" aria-hidden="true" focusable="false"><path d="M14 8.53A6 6 0 1 1 7.47 2a4.67 4.67 0 0 0 6.53 6.53z" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/></svg><svg class="icone-soleil" viewBox="0 0 16 16" width="16" height="16" aria-hidden="true" focusable="false"><circle cx="8" cy="8" r="3" fill="none" stroke="currentColor" stroke-width="1.5"/><path d="M8 1.25v1.5M8 13.25v1.5M1.25 8h1.5M13.25 8h1.5M3.23 3.23l1.06 1.06M11.71 11.71l1.06 1.06M3.23 12.77l1.06-1.06M11.71 4.29l1.06-1.06" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg><span class="visuellement-cache theme-vers-sombre">Passer en affichage sombre</span><span class="visuellement-cache theme-vers-clair">Passer en affichage clair</span></button>
         <!-- Bouton de langue : mène à la même page dans l'autre langue -->
         <div class="langues"><span class="langue-active" lang="fr"><span class="visuellement-cache">Langue actuelle : </span>FR</span><span class="langue-separateur" aria-hidden="true">/</span><a class="langue" href="en/legal-notice.html" hreflang="en" lang="en"><span class="visuellement-cache">English version: </span>EN</a></div>
         <a class="bouton bouton--plein" href="devis.html">Demander un devis <svg class="fleche" viewBox="0 0 16 16" width="16" height="16" aria-hidden="true" focusable="false"><path d="M2 8h11M9 4l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.5"/></svg></a>
@@ -74,6 +78,7 @@
       <li><a href="contact.html" data-fermer>Contact <svg class="fleche" viewBox="0 0 16 16" width="16" height="16" aria-hidden="true" focusable="false"><path d="M2 8h11M9 4l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.5"/></svg></a></li>
       <li><a href="devis.html" data-fermer>Demande de devis <svg class="fleche" viewBox="0 0 16 16" width="16" height="16" aria-hidden="true" focusable="false"><path d="M2 8h11M9 4l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.5"/></svg></a></li>
       <li class="menu-langue"><a href="en/legal-notice.html" hreflang="en" lang="en">English version <svg class="fleche" viewBox="0 0 16 16" width="16" height="16" aria-hidden="true" focusable="false"><path d="M2 8h11M9 4l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.5"/></svg></a></li>
+      <li class="menu-theme"><button type="button" data-bascule-theme><span class="theme-vers-sombre">Affichage sombre</span><span class="theme-vers-clair">Affichage clair</span><svg class="icone-lune" viewBox="0 0 16 16" width="16" height="16" aria-hidden="true" focusable="false"><path d="M14 8.53A6 6 0 1 1 7.47 2a4.67 4.67 0 0 0 6.53 6.53z" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/></svg><svg class="icone-soleil" viewBox="0 0 16 16" width="16" height="16" aria-hidden="true" focusable="false"><circle cx="8" cy="8" r="3" fill="none" stroke="currentColor" stroke-width="1.5"/><path d="M8 1.25v1.5M8 13.25v1.5M1.25 8h1.5M13.25 8h1.5M3.23 3.23l1.06 1.06M11.71 11.71l1.06 1.06M3.23 12.77l1.06-1.06M11.71 4.29l1.06-1.06" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></button></li>
       </ul>
     </nav>
     <p class="label">Autorisation d’exercer CNAPS n° <span class="insecable">AUT-013-2123-06-12-20240936040</span></p>
@@ -147,7 +152,7 @@
           <p>Le traitement des données personnelles est décrit dans la <a href="confidentialite.html">politique de confidentialité</a>.</p>
 
           <h2 id="mise-a-jour">8. Mise à jour</h2>
-          <p>Dernière mise à jour : <span data-info="date_mise_a_jour" data-defaut="À compléter">6 novembre 2026</span></p>
+          <p>Dernière mise à jour : <span data-info="date_mise_a_jour" data-defaut="À compléter">9 novembre 2026</span></p>
         </div>
       </div>
     </section>
