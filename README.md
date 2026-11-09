@@ -55,7 +55,7 @@ site-vps/
 ├── fonts/                   Police Geist (+ sa licence libre, licence-geist.txt)
 ├── images/
 │   ├── logo/                logo-vps-160.webp (en-tête), logo-vps-800.webp (référencement), apple-touch-icon.png
-│   ├── ambiance/            4 visuels d'ambiance PROVISOIRES (générés pour illustrer le design)
+│   ├── ambiance/            6 visuels générés par IA : 4 vues de nuit + 2 scènes « sécurité incendie »
 │   ├── galerie/             emplacements photo « …-a-remplacer.svg » (versions « …-a-remplacer-en.svg » en anglais)
 │   └── partage/             vps-partage.jpg (aperçu lors d'un partage de lien)
 └── outils/                  FACULTATIF (Python 3), utile avant la mise en ligne
@@ -233,20 +233,27 @@ Balises `<title>` et `<meta name="description">` en haut de chaque page (ainsi q
 
 ## 6. Photos, logo et visuels
 
-### Visuels d'ambiance
+### Visuels d'ambiance et visuels « sécurité incendie »
 
-Les 4 photos aériennes de nuit du dossier `images/ambiance/` ont été **générées par intelligence artificielle** pour illustrer le design : elles ne montrent ni l'équipe, ni les sites, ni les clients de VPS (aucune personne reconnaissable, aucun logo). Vous avez choisi de les conserver : la mention « Visuel d'ambiance provisoire » a été retirée le 6 novembre 2026. Pour changer une image, enregistrez la nouvelle photo **sous le même nom** dans `images/ambiance/`.
+Les 6 images du dossier `images/ambiance/` ont été **générées par intelligence artificielle** pour illustrer le site :
+
+- **4 photos aériennes de nuit** (sites, bureaux, commerces, événements) : elles ne montrent ni l'équipe, ni les sites, ni les clients de VPS (aucune personne reconnaissable, aucun logo). Vous avez choisi de les conserver : la mention « Visuel d'ambiance provisoire » a été retirée le 6 novembre 2026 ;
+- **2 visuels « sécurité incendie »** (ajoutés le 9 novembre 2026) : un agent en tenue « SÉCURITÉ INCENDIE » devant le tableau du système de sécurité incendie (SSI), et une ronde de contrôle d'un extincteur et d'un robinet d'incendie armé. Les agents représentés ne sont pas des membres de l'équipe VPS (visages non visibles, aucun logo) : vous pourrez les remplacer par de vraies photos de vos agents, avec leur accord.
+
+Pour changer une image, enregistrez la nouvelle photo **sous le même nom** dans `images/ambiance/`.
 
 | Fichier | Utilisé dans |
 |---|---|
-| `zone-logistique-nuit.jpg` | en-tête de l'accueil, onglet « Sites & entrepôts », appel final (accueil, galerie), demande de devis, prestation « Sécurité incendie », page 404 |
-| `parc-bureaux-nuit.jpg` | onglet « Sécurité incendie », en-têtes Entreprise et Contact, prestation « Surveillance » |
-| `zone-commerciale-nuit.jpg` | onglet « Commerces », en-tête Prestations, prestation « Prévention en magasin » |
-| `marche-nuit.jpg` | onglet « Événements », en-tête Références, prestation « Sécurité événementielle » |
+| `zone-logistique-nuit.jpg` | en-tête de l'accueil, onglet « Sites & entrepôts », appel final (accueil, galerie), en-tête Demande de devis, page 404 |
+| `parc-bureaux-nuit.jpg` | en-têtes L'entreprise et Contact, appel final (L'entreprise), prestation « Surveillance » |
+| `zone-commerciale-nuit.jpg` | onglet « Commerces », en-tête et appel final Prestations, prestation « Prévention en magasin » |
+| `marche-nuit.jpg` | onglet « Événements », prestation « Sécurité événementielle » |
+| `incendie-poste-ssi.jpg` | onglet « Sécurité incendie » de l'accueil |
+| `incendie-ronde-extincteurs.jpg` | prestation « Sécurité incendie » |
 
 Les pages anglaises utilisent les mêmes images.
 
-**Format conseillé** pour une photo de remplacement : JPG, environ 1600 à 2400 px de large, moins de 400 Ko, image plutôt sombre, sujet au centre (le titre s'affiche en haut et les boutons en bas). Les photos sont décoratives : laissez `alt=""`.
+**Format conseillé** pour une photo de remplacement : JPG, environ 1600 à 2400 px de large, moins de 400 Ko, image plutôt sombre, sujet au centre (le titre s'affiche en haut et les boutons en bas). Les vues de nuit sont décoratives : laissez `alt=""`. Les deux visuels « sécurité incendie » sont décrits (attribut `alt`) : si vous les remplacez, adaptez cette description dans `index.html`, `prestations.html` et leurs versions anglaises, et ajustez au besoin leur cadrage (règles `.visuel-incendie-ssi` et `.visuel-incendie-ronde` de `css/style.css`).
 
 ### Galerie
 

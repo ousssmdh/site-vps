@@ -571,6 +571,9 @@ html.menu-ouvert { overflow: hidden; }
 .pied-logo { width: 64px; height: 64px; margin-bottom: 20px; border-radius: 50%; }
 /* Paragraphe ne contenant qu'une information facultative vide (config/infos-vps.ini) : masqué */
 p:has(> [data-info]:only-child:empty) { display: none; }
+/* Visuels « sécurité incendie » : cadrage (agent, tableau SSI, extincteurs toujours visibles) */
+.visuel-incendie-ssi { object-position: 70% 20%; }
+.visuel-incendie-ronde { object-position: 55% 40%; }
 @media (max-width: 63.99em) {
   .identite-embleme, .identite-texte { grid-column: 1 / -1; }
   .identite-logo { width: min(66vw, 320px); }
