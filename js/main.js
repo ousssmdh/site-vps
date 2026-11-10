@@ -1,6 +1,7 @@
 /* ==========================================================================
    VPS – Vigilance Protection Sécurité — scripts du site (js/main.js)
-   Aucun service externe, aucun cookie, aucune dépendance.
+   Aucun cookie, aucune dépendance. Seul l'envoi du formulaire de devis
+   contacte un service externe (FormSubmit, voir README.md, section 8).
    1. En-tête : fond opaque après défilement
    2. Menu plein écran (écrans de moins de 64em)
    3. Texte révélé mot à mot au défilement
@@ -12,8 +13,8 @@
       → relues à chaque affichage : enregistrez le fichier, puis actualisez
         la page (F5). Rien à installer, rien à lancer.
    9. Formulaire de demande de devis
-      → INACTIF tant qu'aucune adresse de réception n'est renseignée
-        (adresse_reception dans config/infos-vps.ini). Voir README.md.
+      → envoyé à l'adresse de réception indiquée dans config/infos-vps.ini
+        (adresse_reception) ; INACTIF si elle est vide. Voir README.md.
    Les messages existent en français et en anglais (pages du dossier en/).
    L'affichage clair / sombre est géré à part, par js/theme.js.
    ========================================================================== */
@@ -452,6 +453,8 @@
     }
 
     // FORMULAIRE ACTIF : un service de réception a été configuré.
+    var classique = form.getAttribute('data-mode-envoi') === 'classique';
+    adresse = adresseSelonMode(adresse, classique);
     if (avis) avis.hidden = true;
     form.setAttribute('action', adresse);
     bouton.disabled = false;
@@ -474,7 +477,7 @@
       }
 
       // Mode « classique » : le navigateur envoie le formulaire lui-même.
-      if (form.getAttribute('data-mode-envoi') === 'classique') return;
+      if (classique) return;
 
       // Mode « ajax » (par défaut) : envoi en arrière-plan, confirmation
       // affichée UNIQUEMENT si le service confirme la bonne réception.
@@ -484,21 +487,53 @@
 
       fetch(adresse, {
         method: 'POST',
-        body: new FormData(form),
+        body: new URLSearchParams(new FormData(form)),
         headers: { Accept: 'application/json' }
       })
-        .then(function (reponse) {
-          if (!reponse.ok) throw new Error('Réponse ' + reponse.status);
+        .then(lireReponse)
+        .then(function () {
           form.reset();
           afficherStatut(statut, t('Merci : votre demande a bien été envoyée.', 'Thank you: your request has been sent.'), 'succes');
         })
-        .catch(function () {
-          afficherStatut(statut, t("L'envoi a échoué. Merci de réessayer plus tard ou d'utiliser les coordonnées de la page Contact.", 'Sending failed. Please try again later or use the details on the Contact page.'), 'erreur');
+        .catch(function (erreur) {
+          afficherStatut(statut, messageEchec(erreur), 'erreur');
         })
         .then(function () {
           bouton.disabled = false;
         });
     });
+  }
+
+  // FormSubmit : adresse « /ajax/ » pour l'envoi en arrière-plan, sans « /ajax/ »
+  // en mode classique. Les adresses des autres services restent telles quelles.
+  function adresseSelonMode(adresse, classique) {
+    var m = /^(https:\/\/formsubmit\.co\/)(?:ajax\/)?(.+)$/i.exec(adresse);
+    return m ? m[1] + (classique ? '' : 'ajax/') + m[2] : adresse;
+  }
+
+  // Réponse du service : la demande n'est confirmée que si le service l'indique
+  // (FormSubmit : « success » ; Formspree : « ok » et « errors »).
+  function lireReponse(reponse) {
+    return reponse.text().then(function (texte) {
+      var d = {};
+      try { d = JSON.parse(texte) || {}; } catch (e) { d = {}; }
+      var refus = d.success === false || d.success === 'false' || d.ok === false || !!(d.errors && d.errors.length);
+      if (!reponse.ok || refus) {
+        var erreur = new Error('Réponse ' + reponse.status);
+        erreur.detail = typeof d.message === 'string' ? d.message : '';
+        throw erreur;
+      }
+    });
+  }
+
+  function messageEchec(erreur) {
+    if (window.location.protocol === 'file:') {
+      return t("Aperçu local : l'envoi ne fonctionne que sur le site en ligne (voir README.md, section 8).", 'Local preview: sending only works on the live website (see README.md, section 8).');
+    }
+    if (/activat/i.test((erreur && erreur.detail) || '')) {
+      return t("Le formulaire est en cours d'activation : votre demande n'a pas pu être confirmée. Merci de réessayer plus tard ou d'utiliser les coordonnées de la page Contact.", 'The form is being activated: your request could not be confirmed. Please try again later or use the details on the Contact page.');
+    }
+    return t("L'envoi a échoué. Merci de réessayer plus tard ou d'utiliser les coordonnées de la page Contact.", 'Sending failed. Please try again later or use the details on the Contact page.');
   }
 
   function verifierFormulaire(form) {

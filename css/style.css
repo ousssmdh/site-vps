@@ -442,6 +442,9 @@ html.menu-ouvert { overflow: hidden; }
 .statut-formulaire { margin: 0; font-weight: 500; }
 .statut-formulaire.est-succes { color: var(--succes); }
 .statut-formulaire.est-erreur { color: var(--erreur); }
+.formulaire-alternative { width: 100%; margin: 0; color: var(--doux); font-size: .875rem; }
+.formulaire-alternative a { color: var(--papier); white-space: nowrap; }
+.formulaire-alternative:not(:has(a)) { display: none; } /* masqué tant que l'e-mail est vide */
 
 /* 14. Contact et pages légales ------------------------------------------------------------------ */
 .contact { display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); gap: 48px 24px; }

@@ -105,25 +105,26 @@
 
       <div class="studio-formulaire">
         <!-- ==================================================================
-             FORMULAIRE DE DEVIS — ACTUELLEMENT NON ACTIF
-             GitHub Pages ne peut pas recevoir de formulaire : il faut brancher un
-             service de réception externe (voir README.md, section 8).
-             Pour l'activer : indiquez l'adresse fournie par ce service dans
-             config/infos-vps.ini (adresse_reception). Le script js/main.js active
-             alors le bouton d'envoi et masque l'avertissement.
+             FORMULAIRE DE DEVIS — envoi par le service FormSubmit
+             GitHub Pages ne peut pas recevoir de formulaire : les demandes sont
+             transmises par e-mail par FormSubmit (voir README.md, section 8).
+             L'adresse d'envoi est indiquée dans config/infos-vps.ini
+             (adresse_reception) : le script js/main.js active alors le bouton
+             d'envoi et masque l'avertissement ci-dessous. Si elle est vide, le
+             formulaire redevient inactif et rien ne peut être envoyé.
              ================================================================== -->
         <div class="note note--attention" id="formulaire-inactif" role="note">
           <svg class="icone" viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M12 3.5L2.5 20h19z"/><path d="M12 10v4.5M12 17.2h.01"/></svg>
           <div>
             <h2 class="note-titre">Form not active</h2>
-            <p>Receiving requests has not been set up yet: <strong>no information entered in this form can be sent for the time being.</strong> In the meantime, please see the <a href="contact.html">Contact</a> page.<span data-info="email_phrase" data-defaut=""></span></p>
+            <p>Receiving requests has not been set up yet: <strong>no information entered in this form can be sent for the time being.</strong> In the meantime, please see the <a href="contact.html">Contact</a> page.<span data-info="email_phrase" data-defaut=""> You can also email us at <a href="mailto:contact@vps-securite.fr">contact@vps-securite.fr</a>.</span></p>
             <!-- Le lien e-mail ci-dessus s'affiche automatiquement dès que l'e-mail est renseigné dans config/infos-vps.ini. -->
           </div>
         </div>
         <noscript>
           <p class="note note--info">JavaScript is disabled in your browser: this form cannot be sent.</p>
         </noscript>
-        <form class="formulaire" id="formulaire-devis" method="post" data-adresse-reception="" data-mode-envoi="ajax" novalidate>
+        <form class="formulaire" id="formulaire-devis" method="post" data-adresse-reception="https://formsubmit.co/ajax/contact@vps-securite.fr" data-mode-envoi="ajax" novalidate>
           <p class="aide">Fields marked with an asterisk (<span class="obligatoire">*</span>) are required.</p>
 
           <fieldset>
@@ -202,23 +203,27 @@
             </div>
           </fieldset>
 
-          <!-- Champ anti-robots invisible : à laisser vide (nom « _gotcha » utilisé par Formspree, à adapter selon le service). -->
+          <!-- Champ anti-robots invisible : à laisser vide (nom « _honey » reconnu par FormSubmit, à adapter si vous changez de service). -->
           <div class="champ-piege" aria-hidden="true">
             <label for="champ-piege">Do not fill in this field</label>
-            <input id="champ-piege" name="_gotcha" type="text" tabindex="-1" autocomplete="off">
+            <input id="champ-piege" name="_honey" type="text" tabindex="-1" autocomplete="off">
           </div>
+          <!-- Champs techniques lus par FormSubmit : objet de l'e-mail reçu et présentation en tableau -->
           <input type="hidden" name="_subject" value="Nouvelle demande de devis (version anglaise) – site VPS">
+          <input type="hidden" name="_template" value="table">
 
           <div class="info-donnees">
             <!-- Texte d'information à faire valider (voir aussi la politique de confidentialité) -->
             <h2>How your data is used</h2>
-            <p>The information you enter is intended for VIGILANCE PROTECTION SECURITE (VPS), 51 rue Sainte, 13001 Marseille, France. It is used solely to review your quote request and to contact you about it.</p>
+            <p>The information you enter is intended for VIGILANCE PROTECTION SECURITE (VPS), 51 rue Sainte, 13001 Marseille, France. It is used solely to review your quote request and to contact you about it. It is forwarded to VPS by email through the FormSubmit service.</p>
             <p>Retention period: <span data-info="duree_conservation" data-defaut="To be completed">3 years from the last contact</span>. You can access your data and have it corrected or deleted. To find out more, see our <a href="privacy.html">privacy policy</a>.</p>
           </div>
 
           <div class="actions-formulaire">
             <button class="bouton bouton--plein" type="submit" disabled data-libelle-actif="Send my quote request">Sending disabled: form not active</button>
             <p class="statut-formulaire" role="status" aria-live="polite"></p>
+            <!-- Lien e-mail affiché automatiquement (email dans config/infos-vps.ini) -->
+            <p class="formulaire-alternative"><span data-info="email_phrase" data-defaut=""> You can also email us at <a href="mailto:contact@vps-securite.fr">contact@vps-securite.fr</a>.</span></p>
           </div>
         </form>
       </div>
@@ -257,7 +262,7 @@
         <ul>
           <li>51 rue Sainte, 13001 Marseille, France</li>
           <li>Phone: <span data-info="telephone" data-defaut="To be completed"><a href="tel:+33603040078">06 03 04 00 78</a></span></li>
-          <li>Email: <span class="a-completer a-completer--court" data-info="email" data-defaut="To be completed">[To be completed]</span></li>
+          <li>Email: <span data-info="email" data-defaut="To be completed"><a href="mailto:contact@vps-securite.fr">contact@vps-securite.fr</a></span></li>
         </ul>
       </div>
     </div>

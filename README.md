@@ -6,9 +6,9 @@ Le site existe en **français** (racine du site) et en **anglais** (dossier `en/
 
 Il s'affiche en **clair** ou en **sombre** : un bouton **lune / soleil** en haut de chaque page (et la ligne « Affichage » du menu sur téléphone) passe d'un affichage à l'autre. L'affichage clair est proposé par défaut et le choix de chaque visiteur est mémorisé (section 3).
 
-> **Presque prêt.** Il reste à ajouter l'**adresse e-mail** (dans `config/infos-vps.ini`) et les **photos de la galerie** (section 6). Jusqu'à la mise en ligne :
-> - le **formulaire de devis est inactif** tant qu'aucun service de réception n'est branché (section 8) : rien ne peut être envoyé et la page l'indique clairement ;
-> - chaque page contient une balise **`noindex`** qui empêche son référencement (à lever le jour de la mise en ligne, section 9).
+> **Presque prêt.** Il reste à ajouter les **photos de la galerie** (section 6).
+> - L'adresse **contact@vps-securite.fr** est affichée sur le site et le **formulaire de devis est branché** sur le service gratuit FormSubmit : les demandes arrivent par e-mail à cette adresse, **après un clic de confirmation lors du tout premier envoi** (section 8).
+> - Jusqu'à la mise en ligne, chaque page contient une balise **`noindex`** qui empêche son référencement (à lever le jour de la mise en ligne, section 9).
 >
 > **Les informations manquantes (téléphone, e-mail, zone d'intervention, mentions légales…) se renseignent dans un seul fichier : `config/infos-vps.ini`. Enregistrez-le, puis actualisez la page (F5) : rien à installer, rien à lancer** — voir [section 5](#5-modifier-les-textes).
 >
@@ -90,6 +90,8 @@ python outils/verifier_site.py                 # liens, images, polices, ancres 
 python outils/verifier_site.py --publication   # contrôle final : échoue s'il reste un point à traiter
 ```
 
+L'envoi du formulaire de devis ne fonctionne pas depuis un fichier ouvert par double-clic : testez-le sur le site en ligne (section 8).
+
 **Tests manuels conseillés** : bouton FR / EN et bouton lune / soleil (affichage clair / sombre) sur chaque page, menu sur téléphone (bouton « Menu »), navigation au clavier (`Tab`, `Maj + Tab`, `Entrée`, `Échap` pour fermer le menu), carrousel de la galerie, zoom à 200 %, affichage sur un vrai téléphone.
 
 ---
@@ -157,9 +159,9 @@ Sources : **autorisation d'exercer délivrée par le CNAPS** (document fourni) e
 | RCS | Marseille 929 091 593 | mentions, confidentialité |
 | TVA intracommunautaire | FR64929091593 | mentions légales |
 
-**Déjà renseignés** dans `config/infos-vps.ini` : téléphone, zone d'intervention, capital social (5 000 € : vérifiez-le sur un Kbis récent, les registres publics consultés indiquaient 100 € puis 1 000 €), directeur de la publication, crédits photos, adresse du site, téléphone de l'hébergeur, durée de conservation des demandes (3 ans à compter du dernier contact, durée indiquée par la CNIL pour les données de prospects), contact pour les données personnelles (adresse du siège) et date de mise à jour des pages légales.
+**Déjà renseignés** dans `config/infos-vps.ini` : téléphone, zone d'intervention, capital social (5 000 € : vérifiez-le sur un Kbis récent, les registres publics consultés indiquaient 100 € puis 1 000 €), directeur de la publication, crédits photos, adresse du site, téléphone de l'hébergeur, durée de conservation des demandes (3 ans à compter du dernier contact, durée indiquée par la CNIL pour les données de prospects), adresse e-mail (contact@vps-securite.fr, ajoutée le 10 novembre 2026), contact pour les données personnelles (même adresse e-mail), adresse de réception du formulaire de devis et date de mise à jour des pages légales.
 
-**Reste à compléter** : l'adresse e-mail (même fichier, voir section 5).
+**Reste à compléter** : rien dans ce fichier ; il reste seulement les photos de la galerie (section 6).
 
 **Règles propres à la sécurité privée (code de la sécurité intérieure)** :
 
@@ -191,7 +193,7 @@ Si le fichier ne peut pas être lu, ou si une valeur est invalide (e-mail mal é
 | Information | Clé dans le fichier | Où elle apparaît |
 |---|---|---|
 | Téléphone | `telephone` | pied de page (toutes les pages), contact, mentions légales |
-| E-mail | `email` | pied de page, contact, mentions légales, lien e-mail sur la page devis |
+| E-mail | `email` | pied de page, contact, mentions légales, page devis (sous le bouton d'envoi) |
 | Zone d'intervention | `zone_intervention` | accueil (FAQ), entreprise, contact |
 | Présentation de l'entreprise (facultatif) | `presentation` | entreprise (rien ne s'affiche si elle est vide) |
 | Capital social | `capital_social` | mentions légales |
@@ -203,7 +205,7 @@ Si le fichier ne peut pas être lu, ou si une valeur est invalide (e-mail mal é
 | Date de mise à jour | `date_mise_a_jour` | mentions légales, confidentialité |
 | Adresse du site | `adresse_site` | adresses de référence, partage, `sitemap.xml`, `robots.txt` (appliquée par l'outil de préparation) |
 | Référencement | `indexation` (`non` / `oui`) | balise `robots` de chaque page (appliquée par l'outil de préparation) |
-| Formulaire de devis | `adresse_reception`, `mode_envoi` | `devis.html` et `en/quote.html` (active le formulaire) |
+| Formulaire de devis | `adresse_reception`, `mode_envoi` | `devis.html` et `en/quote.html` (adresse d'envoi FormSubmit ; vide = formulaire inactif) |
 | Textes des pages anglaises | section `[version_anglaise]` | pages du dossier `en/` |
 
 Bon à savoir :
@@ -212,7 +214,7 @@ Bon à savoir :
 - la section `[version_anglaise]` reçoit la traduction des textes (zone d'intervention, présentation, capital social, directeur de la publication…) ; une ligne vide reprend le texte français ; une date écrite « 5 novembre 2026 » est traduite automatiquement ;
 - le fichier est publié avec le site : n'y écrivez que des informations publiques, jamais de mot de passe ni de clé secrète.
 
-**Avant la mise en ligne (facultatif)** : l'outil `outils/preparer_publication.py` inscrit aussi ces informations directement dans le code des pages (utile au référencement, et affichées même si le fichier ne pouvait pas être lu), règle l'indexation et reporte l'adresse définitive du site. Il demande Python 3 (gratuit sur python.org) : double-cliquez sur `outils\preparer-publication.bat`, ou lancez `python outils/preparer_publication.py` depuis le dossier du site. Sans Python, le raccourci affiche simplement un message : ce n'est pas bloquant. Les informations renseignées au 5 novembre 2026 ont déjà été inscrites dans les pages.
+**Avant la mise en ligne (facultatif)** : l'outil `outils/preparer_publication.py` inscrit aussi ces informations directement dans le code des pages (utile au référencement, et affichées même si le fichier ne pouvait pas être lu), règle l'indexation et reporte l'adresse définitive du site. Il demande Python 3 (gratuit sur python.org) : double-cliquez sur `outils\preparer-publication.bat`, ou lancez `python outils/preparer_publication.py` depuis le dossier du site. Sans Python, le raccourci affiche simplement un message : ce n'est pas bloquant. Les informations renseignées au 10 novembre 2026 ont déjà été inscrites dans les pages.
 
 Les autres contenus (textes de présentation des prestations, références, légendes des photos, paragraphes juridiques à faire valider) se modifient directement dans les pages, comme expliqué ci-dessous.
 
@@ -325,35 +327,38 @@ La page Références a été supprimée le 6 novembre 2026. Les noms restent aff
 
 ## 8. Activer la réception des demandes de devis
 
-**Pourquoi le formulaire est inactif** : GitHub Pages héberge uniquement des fichiers statiques ; il ne peut ni recevoir ni stocker un formulaire. Deux possibilités :
+GitHub Pages héberge uniquement des fichiers statiques : il ne peut ni recevoir ni stocker un formulaire. Le formulaire de devis est donc relié à un service externe gratuit, **FormSubmit** (formsubmit.co), qui ne demande ni inscription ni mot de passe : il transmet chaque demande par e-mail.
 
-- **A.** brancher un service externe de réception de formulaires (ci-dessous) ;
-- **B.** laisser le formulaire inactif et afficher seulement de vraies coordonnées, voire supprimer le formulaire.
+**Réglage actuel** (`config/infos-vps.ini`, section `[formulaire_devis]`) :
 
-**État actuel** : `adresse_reception` est vide dans `config/infos-vps.ini` (et l'attribut `data-adresse-reception=""` est vide dans `devis.html` et `en/quote.html`). Le script garde donc le formulaire inactif : avertissement visible, bouton désactivé (« Envoi désactivé : formulaire non actif »), aucune donnée envoyée et aucune fausse confirmation possible.
+```ini
+adresse_reception = https://formsubmit.co/ajax/contact@vps-securite.fr
+mode_envoi = ajax
+```
 
-### Option A — étapes
+Les demandes envoyées depuis `devis.html` et `en/quote.html` arrivent à **contact@vps-securite.fr**, sous forme de tableau, avec l'objet « Nouvelle demande de devis – site VPS » (« … (version anglaise) … » pour la page anglaise). Le bouton **Répondre** de votre messagerie écrit directement au demandeur.
 
-1. **Choisir un service** compatible avec les sites statiques (par exemple Formspree, Web3Forms, Basin ou Getform). Comparez : localisation des données et conformité au RGPD (contrat de sous-traitance), limites de l'offre gratuite, protection anti-spam, notifications par e-mail, prix.
-2. **Créer le formulaire** dans ce service avec l'adresse e-mail professionnelle réelle qui recevra les demandes. Le service fournit une adresse d'envoi, par exemple pour Formspree : `https://formspree.io/f/xxxxxxxx`.
-3. **Coller cette adresse** dans `config/infos-vps.ini` (`adresse_reception = https://formspree.io/f/xxxxxxxx`), puis actualiser la page : le formulaire s'active aussitôt, sur `devis.html` comme sur `en/quote.html`. Avant la mise en ligne, l'outil de préparation (section 5) l'inscrit aussi dans le code :
+### Activation (une seule fois)
 
-   ```html
-   <form class="formulaire" id="formulaire-devis" method="post"
-         data-adresse-reception="https://formspree.io/f/xxxxxxxx"
-         data-mode-envoi="ajax" novalidate>
-   ```
+1. Ouvrez la page **Demande de devis** du site **en ligne** et envoyez une demande de test (l'envoi ne fonctionne pas depuis un fichier ouvert par double-clic).
+2. FormSubmit envoie aussitôt à contact@vps-securite.fr un e-mail de confirmation : cliquez sur **Activate Form**. Regardez aussi dans les courriers indésirables.
+3. Envoyez une deuxième demande de test : la page doit afficher « Merci : votre demande a bien été envoyée » et l'e-mail doit arriver dans la boîte contact@vps-securite.fr.
 
-   Le script masque alors l'avertissement, active le bouton, vérifie les champs (obligatoires, e-mail, téléphone) et n'affiche « Votre demande a bien été envoyée » **que si le service confirme la réception**.
-4. **Mode d'envoi** (`mode_envoi` dans le même fichier) : `ajax` (par défaut, message affiché sur la page ; le service doit répondre en JSON, comme Formspree) ou `classique` (le navigateur affiche la page de confirmation du service).
-5. **Anti-spam** : le champ caché `_gotcha` et le champ `_subject` suivent la convention de Formspree ; adaptez-les à la documentation du service choisi.
-6. **Tester** depuis le serveur local puis en ligne : envoyez une demande de test, vérifiez sa réception, puis testez un échec (connexion coupée) pour voir le message d'erreur.
-7. **Mettre à jour** la politique de confidentialité (destinataire : nom et pays du service, transfert éventuel hors UE, durée de conservation) et l'encadré « Utilisation de vos données » de `devis.html`.
-8. **Désactiver** à tout moment : videz `adresse_reception` (et relancez l'outil de préparation si vous l'aviez utilisé).
+Tant que l'activation n'est pas faite, la page affiche « Le formulaire est en cours d'activation… » au lieu de la confirmation.
 
-**Lien e-mail** : il s'affiche automatiquement (pied de page, contact, mentions légales et avertissement de la page devis) dès que `email` est renseigné dans `config/infos-vps.ini`. Tant qu'il est vide, aucun lien e-mail n'apparaît.
+**Messagerie Zoho** : si contact@vps-securite.fr est un groupe Zoho Mail, il doit accepter les e-mails venant de l'extérieur (groupe public, réglage **Everyone** pour « Who can send emails to your group »). Sinon, les e-mails de FormSubmit sont retenus en modération ou refusés.
 
-**Secrets** : l'adresse d'envoi d'un service de formulaire est publique par nature, c'est normal. En revanche, ne placez jamais de clé d'API, de mot de passe ou de jeton secret dans le code.
+### Bon à savoir
+
+- **Confirmation honnête** : « Merci : votre demande a bien été envoyée » ne s'affiche **que si FormSubmit confirme la réception**. En cas d'échec, la page invite à réessayer ou à utiliser la page Contact ; l'adresse e-mail est aussi affichée sous le bouton d'envoi.
+- **Anti-spam** : un champ invisible (`_honey`) écarte les robots qui le remplissent. En cas de demandes indésirables, FormSubmit permet d'ajouter un champ caché `_blacklist` (liste de mots à bloquer).
+- **Changement d'adresse du site** (passage au domaine www.vps-securite.fr) : FormSubmit peut redemander une confirmation ; refaites alors les étapes 1 et 2.
+- **Masquer l'adresse dans le code** (facultatif) : après l'activation, FormSubmit fournit une adresse de remplacement aléatoire, à mettre à la place de `contact@vps-securite.fr` à la fin de `adresse_reception`. Ce n'est pas indispensable : l'adresse est déjà affichée sur le site.
+- **Mode `classique`** : le navigateur affiche alors les pages de FormSubmit (vérification anti-robot, puis confirmation). Le script adapte l'adresse d'envoi tout seul.
+- **Données personnelles** : la politique de confidentialité (destinataires, transferts, sécurité) et l'encadré « Utilisation de vos données » de la page devis indiquent que les demandes transitent par FormSubmit. FormSubmit ne publie ni contrat de sous-traitance ni localisation de ses serveurs : pour un cadre plus solide (hébergement en Europe, contrat de sous-traitance), choisissez un autre service, collez l'adresse d'envoi qu'il fournit dans `adresse_reception`, et adaptez ces textes ainsi que le nom du champ anti-spam.
+- **Désactiver** le formulaire : videz `adresse_reception`. L'avertissement « Formulaire non actif » réapparaît et le bouton d'envoi se désactive.
+
+**Secrets** : l'adresse d'envoi d'un service de formulaire est publique par nature, c'est normal. Ne placez jamais de clé d'API, de mot de passe ou de jeton secret dans le code.
 
 ---
 
@@ -411,6 +416,8 @@ La page Références a été supprimée le 6 novembre 2026. Les noms restent aff
    | AAAA (facultatif) | `@` | `2606:50c0:8000::153`, `2606:50c0:8001::153`, `2606:50c0:8002::153`, `2606:50c0:8003::153` |
 
    Supprimez les enregistrements par défaut du registraire sur ces noms et n'utilisez pas d'enregistrement générique `*.vps-securite.fr`. La propagation peut prendre jusqu'à 24 heures.
+
+   **Ne touchez pas aux enregistrements MX et TXT (SPF, DKIM, vérification) de Zoho Mail** : ils font fonctionner les adresses e-mail @vps-securite.fr, dont contact@vps-securite.fr.
 7. De retour dans **Settings › Pages**, cochez **« Enforce HTTPS »** dès que l'option est disponible (jusqu'à 24 heures).
 8. Contrôle final sur le vrai domaine : chaque page dans les deux langues, le bouton FR / EN, le menu sur téléphone, le formulaire, l'aperçu de partage, et `python outils/verifier_site.py --publication`.
 
@@ -420,10 +427,10 @@ Source : documentation GitHub « Managing a custom domain for your GitHub Pages 
 
 ## 11. Liste de vérification avant publication
 
-- [ ] Adresse e-mail ajoutée dans `config/infos-vps.ini`.
+- [x] Adresse e-mail ajoutée dans `config/infos-vps.ini` (contact@vps-securite.fr).
 - [ ] Photos de la galerie ajoutées, dans les deux langues (accord des personnes photographiées, plaques et détails sensibles vérifiés, crédits indiqués).
 - [ ] Capital social vérifié sur un Kbis récent.
-- [ ] Formulaire activé et testé (section 8), **ou** laissé inactif avec l'e-mail affiché sur la page Contact.
+- [ ] Formulaire activé (clic sur « Activate Form » dans l'e-mail de FormSubmit) et testé depuis le site en ligne (section 8).
 - [ ] Nom de domaine `vps-securite.fr` réservé au nom de VPS ; `indexation = oui`, puis outil de préparation lancé ou remplacement manuel (section 9).
 - [ ] Tests sur téléphone, tablette et ordinateur, dans les deux langues ; `python outils/verifier_site.py --publication` sans erreur.
 
@@ -432,7 +439,7 @@ Source : documentation GitHub « Managing a custom domain for your GitHub Pages 
 ## 12. Sécurité et données
 
 - Aucun secret, mot de passe, clé d'API ni donnée personnelle dans le code : tout ce qui est publié est public.
-- Le site ne dépose aucun cookie et ne charge aucune ressource externe (police, script, carte, vidéo, outil de statistiques) ; il lit seulement son propre fichier `config/infos-vps.ini`. Seul le choix d'affichage clair ou sombre d'un visiteur est enregistré dans son propre navigateur (stockage local), à sa demande ; la politique de confidentialité l'indique. Si vous en ajoutez, mettez à jour la politique de confidentialité et vérifiez si un recueil du consentement est nécessaire.
-- Le formulaire invite les visiteurs à ne transmettre aucune information sensible (codes d'accès, plans de sécurité). Faites arriver les demandes dans une boîte e-mail à accès restreint.
+- Le site ne dépose aucun cookie et ne charge aucune ressource externe (police, script, carte, vidéo, outil de statistiques) ; il lit seulement son propre fichier `config/infos-vps.ini`. Seul le choix d'affichage clair ou sombre d'un visiteur est enregistré dans son propre navigateur (stockage local), à sa demande ; la politique de confidentialité l'indique. Seul l'envoi du formulaire de devis contacte un service extérieur (FormSubmit), au moment où le visiteur clique sur le bouton d'envoi. Si vous en ajoutez, mettez à jour la politique de confidentialité et vérifiez si un recueil du consentement est nécessaire.
+- Le formulaire invite les visiteurs à ne transmettre aucune information sensible (codes d'accès, plans de sécurité). Les demandes arrivent dans la boîte contact@vps-securite.fr : limitez son accès aux personnes qui traitent les devis.
 - Ne publiez pas le document d'autorisation du CNAPS lui-même : le numéro suffit.
 - Conservez les preuves : accords des références, autorisations de droit à l'image.
