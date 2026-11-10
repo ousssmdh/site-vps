@@ -1,0 +1,50 @@
+# Décodage ponctuel : transforme les fichiers « .b64 » envoyés (photos, vidéo) en vrais fichiers,
+# puis les supprime. Ce fichier est supprimé juste après son exécution.
+name: Decodage des photos et de la video envoyees
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - ".github/workflows/decodage-medias.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  decodage:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Recuperation du depot
+        uses: actions/checkout@v4
+
+      - name: Decodage
+        shell: bash
+        run: |
+          set -euo pipefail
+          n=0
+          dossiers=""
+          for d in images videos; do if [ -d "$d" ]; then dossiers="$dossiers $d"; fi; done
+          while IFS= read -r -d '' premier; do
+            base="${premier%.p00}"
+            cible="${base%.b64}"
+            cat "$base".p* | base64 -d > "$cible"
+            git add "$cible"
+            git rm -q "$base".p*
+            echo "Decode (morceaux) : $cible"
+            n=$((n+1))
+          done < <(find $dossiers -type f -name '*.b64.p00' -print0)
+          while IFS= read -r -d '' f; do
+            cible="${f%.b64}"
+            base64 -d "$f" > "$cible"
+            git add "$cible"
+            git rm -q "$f"
+            echo "Decode : $cible"
+            n=$((n+1))
+          done < <(find $dossiers -type f -name '*.b64' -print0)
+          if [ "$n" -eq 0 ]; then echo "Rien a decoder."; exit 0; fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git commit -m "Ajout des photos et de la vidéo réelles"
+          git push
