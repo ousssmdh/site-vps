@@ -1,12 +1,12 @@
 # Site vitrine — VPS – Vigilance Protection Sécurité
 
-Site statique multipage en HTML, CSS et JavaScript simples : aucun serveur, aucune base de données, aucune bibliothèque ni ressource externe (la police de caractères est hébergée avec le site). Il fonctionne en local et il est publié sur **GitHub Pages**, à relier à son nom de domaine **www.vps-securite.fr** (section 10).
+Site statique multipage en HTML, CSS et JavaScript simples : aucun serveur, aucune base de données, aucune bibliothèque ni ressource externe (la police de caractères est hébergée avec le site). Il fonctionne en local et il est publié sur **GitHub Pages** à l'adresse **https://www.vps-securite.fr** (section 10).
 
 Le site existe en **français** (racine du site) et en **anglais** (dossier `en/`) : un bouton **FR / EN** en haut de chaque page mène à la même page dans l'autre langue.
 
 Il s'affiche en **clair** ou en **sombre** : un bouton **lune / soleil** en haut de chaque page (et la ligne « Affichage » du menu sur téléphone) passe d'un affichage à l'autre. L'affichage clair est proposé par défaut et le choix de chaque visiteur est mémorisé (section 3).
 
-> **En ligne.** Le site est publié sur GitHub Pages et prêt pour son adresse définitive **www.vps-securite.fr** : les réglages à faire chez OVHcloud et sur GitHub sont détaillés pas à pas en [section 10](#10-votre-domaine-wwwvps-securitefr).
+> **En ligne.** Le site est en ligne à son adresse définitive **https://www.vps-securite.fr** depuis le 10 novembre 2026 (domaine relié, certificat HTTPS délivré par GitHub) ; les réglages faits chez OVHcloud et sur GitHub sont détaillés en [section 10](#10-votre-domaine-wwwvps-securitefr).
 > - L'adresse **contact@vps-securite.fr** est affichée sur le site et le **formulaire de devis fonctionne** (service gratuit FormSubmit, activé le 10 novembre 2026 ; section 8).
 > - Le **référencement est ouvert** (`indexation = oui`), sauf pour la **galerie**, tenue hors des moteurs de recherche tant que ses **photos** ne sont pas en place (sections 6 et 9).
 >
@@ -384,12 +384,14 @@ Pour bloquer de nouveau tout le référencement : `indexation = non`, puis lance
 
 **Situation au 10 novembre 2026**
 
-- Le site est publié sur GitHub Pages depuis le dépôt public `ousssmdh/site-vps` (Settings › Pages : « Deploy from a branch », branche `main`, dossier `/ (root)`) : https://ousssmdh.github.io/site-vps/.
+- Le site est publié sur GitHub Pages depuis le dépôt public `ousssmdh/site-vps` (Settings › Pages : « Deploy from a branch », branche `main`, dossier `/ (root)`) ; l'ancienne adresse https://ousssmdh.github.io/site-vps/ renvoie vers le domaine.
 - Le nom de domaine `vps-securite.fr` est géré chez **OVHcloud** (serveurs DNS `dns103.ovh.net` et `ns103.ovh.net`) ; ses e-mails passent par **Zoho Mail**.
-- Adresse retenue : **https://www.vps-securite.fr** (avec www). `vps-securite.fr` sans www et l'ancienne adresse github.io y renverront automatiquement.
+- Adresse du site : **https://www.vps-securite.fr** (avec www). `vps-securite.fr` sans www et l'ancienne adresse github.io y renvoient automatiquement.
 - Côté site, tout est prêt : adresses des pages, `sitemap.xml`, `robots.txt`, page 404 (mise en forme à la racine du domaine) et fichier `CNAME` contenant `www.vps-securite.fr`.
 
-Il reste quelques réglages à faire vous-même, dans l'ordre ci-dessous (une quinzaine de minutes, plus le délai de propagation).
+**Domaine relié le 10 novembre 2026** : zone DNS modifiée chez OVHcloud, enregistrement de vérification GitHub en place, domaine saisi dans Settings › Pages (fichier `CNAME` enregistré par GitHub), certificat HTTPS délivré pour `www.vps-securite.fr` et `vps-securite.fr`. Dernier réglage : cocher **Enforce HTTPS** (étape 5).
+
+Les étapes ci-dessous restent comme aide-mémoire, par exemple pour contrôler la zone DNS ou refaire la configuration.
 
 ### Étape 1 – GitHub : demander la vérification du domaine
 
@@ -405,22 +407,22 @@ Espace client OVHcloud › **Web Cloud** › **Noms de domaine** › `vps-securi
 
 | Sous-domaine | Type | Cible |
 |---|---|---|
-| *(vide)* | A | `213.186.33.5` |
+| `@` | A | `213.186.33.5` |
 | `www` | A | `213.186.33.5` |
 | `www` | TXT | `"3\|welcome"` |
 
-**b. Ajoutez** ces enregistrements (« Ajouter une entrée » › type › champs › « Ajouter ») :
+**b. Ajoutez** ces enregistrements (« Ajouter une entrée » › type › champs › « Ajouter »). Dans le champ « Sous-domaine », OVHcloud n'accepte pas de valeur vide : saisissez **`@`** pour désigner le domaine lui-même (`vps-securite.fr`) ; l'aperçu affiche alors `vps-securite.fr. IN A …`. Ajoutez une entrée par adresse :
 
 | Type | Sous-domaine | Cible / valeur |
 |---|---|---|
-| A | *(laisser vide)* | `185.199.108.153` |
-| A | *(laisser vide)* | `185.199.109.153` |
-| A | *(laisser vide)* | `185.199.110.153` |
-| A | *(laisser vide)* | `185.199.111.153` |
+| A | `@` | `185.199.108.153` |
+| A | `@` | `185.199.109.153` |
+| A | `@` | `185.199.110.153` |
+| A | `@` | `185.199.111.153` |
 | CNAME | `www` | `ousssmdh.github.io.` (avec le point final) |
 | TXT | `_github-pages-challenge-ousssmdh` | le code affiché par GitHub à l'étape 1 |
 
-Facultatif (IPv6) : quatre enregistrements AAAA, sous-domaine vide : `2606:50c0:8000::153`, `2606:50c0:8001::153`, `2606:50c0:8002::153`, `2606:50c0:8003::153`.
+Facultatif (IPv6) : quatre enregistrements AAAA, sous-domaine `@` : `2606:50c0:8000::153`, `2606:50c0:8001::153`, `2606:50c0:8002::153`, `2606:50c0:8003::153`.
 
 **Ne touchez à aucun autre enregistrement**, surtout pas à ceux de Zoho Mail : MX (`mx.zoho.eu`, `mx2.zoho.eu`, `mx3.zoho.eu`), TXT `v=spf1 include:zohomail.eu ~all`, TXT `zoho-verification=…` et clé DKIM de Zoho. Le TXT `"1|www.vps-securite.fr"` (ancien réglage d'OVHcloud) peut rester : il est sans effet. N'ajoutez jamais d'enregistrement générique `*`.
 
@@ -471,7 +473,8 @@ Dans le dépôt, ouvrez le dossier concerné (par exemple `images/galerie/`), pu
 - [x] Adresse e-mail contact@vps-securite.fr ajoutée sur le site.
 - [x] Formulaire de devis activé et testé depuis le site en ligne (10 novembre 2026).
 - [x] Référencement ouvert (`indexation = oui`) ; galerie exclue tant que ses photos sont à fournir.
-- [ ] Domaine relié : étapes 1 à 6 de la section 10 (zone DNS OVHcloud, vérification GitHub, Custom domain, Enforce HTTPS), puis demande de devis test depuis https://www.vps-securite.fr.
+- [x] Domaine relié le 10 novembre 2026 (zone DNS OVHcloud, vérification GitHub, Custom domain, certificat HTTPS délivré).
+- [ ] **Enforce HTTPS** coché dans Settings › Pages, puis demande de devis test depuis https://www.vps-securite.fr (section 10, étapes 5 et 6).
 - [ ] Photos de la galerie ajoutées, dans les deux langues (accord des personnes photographiées, plaques et détails sensibles vérifiés, crédits indiqués), puis outil de préparation relancé.
 - [ ] Capital social vérifié sur un Kbis récent.
 - [ ] Site déclaré dans Google Search Console avec son `sitemap.xml` (section 9).
