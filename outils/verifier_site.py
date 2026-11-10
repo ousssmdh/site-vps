@@ -18,7 +18,8 @@ Contrôles effectués :
   - langue, titre, description, un seul titre h1, textes alternatifs des images ;
   - noms de fichiers compatibles (minuscules, sans espace ni accent) ;
   - éléments restant à compléter avant publication (e-mail, photos de la galerie…) ;
-  - anciennes pages restées dans le dossier mais reliées à aucune autre page.
+  - anciennes pages restées dans le dossier mais reliées à aucune autre page ;
+  - fichier CNAME (domaine relié au site sur GitHub Pages) identique au domaine des pages.
 """
 import os
 import re
@@ -232,13 +233,26 @@ def main():
         if DOMAINE_PROVISOIRE in texte:
             details.append('adresse provisoire du site')
         if analyses[nom].noindex and nom != '404.html':
-            details.append('balise noindex')
+            if compter(r'-a-remplacer(?:-en)?\.svg', texte):
+                details.append('balise noindex (normal : page tenue hors des moteurs de recherche '
+                               'tant que ses photos sont à fournir)')
+            else:
+                details.append('balise noindex')
         if details:
             a_traiter.append(f'{nom} : ' + ', '.join(details))
     for nom in ('robots.txt', 'sitemap.xml'):
         f = RACINE / nom
         if f.exists() and DOMAINE_PROVISOIRE in f.read_text(encoding='utf-8'):
             a_traiter.append(f'{nom} : adresse provisoire du site')
+    # Fichier CNAME : domaine relié au site sur GitHub Pages
+    cname = RACINE / 'CNAME'
+    if cname.exists():
+        valeur = cname.read_text(encoding='utf-8').strip()
+        m = re.search(r'<link rel="canonical" href="https?://([^/"]+)', (RACINE / 'index.html').read_text(encoding='utf-8'))
+        domaine = m.group(1).lower() if m else ''
+        if valeur.lower() != domaine or not re.fullmatch(r'[a-z0-9-]+(?:\.[a-z0-9-]+)+', valeur, re.I):
+            erreurs.append(f'CNAME : « {valeur} » ne correspond pas au domaine des pages '
+                           f'({domaine or "inconnu"}) : lancez outils/preparer_publication.py')
     # Pages qui ne sont plus reliées au site (par exemple une ancienne page restée dans le dossier)
     liees = set()
     for nom, an in analyses.items():

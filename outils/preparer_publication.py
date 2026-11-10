@@ -8,9 +8,12 @@ config/infos-vps.ini à chaque affichage (enregistrez le fichier, puis actualise
 la page). Cet outil sert avant la mise en ligne, pour :
   - inscrire les informations directement dans les pages françaises et anglaises
     (elles restent ainsi visibles même si le fichier ne peut pas être lu) ;
-  - autoriser ou bloquer le référencement (indexation = oui / non) ;
+  - autoriser ou bloquer le référencement (indexation = oui / non) ; une page qui
+    affiche encore un emplacement « photo à fournir » (galerie) reste hors des
+    moteurs de recherche (balise noindex, ligne mise en commentaire dans sitemap.xml) ;
   - reporter l'adresse définitive du site (adresse_site) dans toutes les pages,
-    sitemap.xml et robots.txt ;
+    sitemap.xml et robots.txt, et l'inscrire dans le fichier CNAME (domaine relié
+    au site sur GitHub Pages) ;
   - activer le formulaire de devis (adresse_reception) dans le code des pages.
 
 Utilisation, depuis le dossier du site :
@@ -26,6 +29,7 @@ import html
 import re
 import sys
 from pathlib import Path
+from urllib.parse import urlsplit
 
 try:
     sys.stdout.reconfigure(encoding='utf-8', errors='replace')
@@ -62,6 +66,9 @@ RE_EMAIL = re.compile(r'^[^@\s<>"]+@[^@\s<>"]+\.[^@\s<>"]{2,}$')
 RE_SPAN = re.compile(r'<span(?P<attrs>[^>]*\sdata-info="(?P<cle>[a-z_]+)"[^>]*)>(?P<contenu>.*?)</span>', re.S)
 RE_DEFAUT = re.compile(r'\sdata-defaut="(?P<defaut>[^"]*)"')
 RE_ROBOTS = re.compile(r'<meta name="robots" content="[^"]*" data-info-meta="indexation">')
+RE_PHOTO_A_FOURNIR = re.compile(r'-a-remplacer(?:-en)?\.svg')
+RE_URL_SITEMAP = re.compile(r'^(?P<retrait>[ \t]*)(?:<!-- Page masquée \(photos à fournir\) : )?'
+                            r'<url><loc>(?P<loc>[^<\s]+)</loc></url>(?: -->)?[ \t]*$', re.M)
 
 
 def typo(texte, langue):
@@ -204,6 +211,30 @@ def remplacer_spans(contenu, r, langue, compteur):
     return RE_SPAN.sub(remplacement, contenu)
 
 
+def photos_a_fournir(contenu):
+    """Vrai si la page affiche encore un emplacement « photo à fournir » (commentaires exclus)."""
+    return bool(RE_PHOTO_A_FOURNIR.search(re.sub(r'<!--.*?-->', '', contenu, flags=re.S)))
+
+
+def url_page(relatif, adresse_site):
+    """Adresse publique d'une page, telle qu'elle figure dans sitemap.xml."""
+    if relatif == 'index.html':
+        return adresse_site + '/'
+    if relatif == 'en/index.html':
+        return adresse_site + '/en/'
+    return f'{adresse_site}/{relatif}'
+
+
+def ajuster_sitemap(contenu, urls_masquees):
+    """Met en commentaire les pages tenues hors des moteurs de recherche et rétablit les autres."""
+    def remplacement(m):
+        ligne = f'<url><loc>{m.group("loc")}</loc></url>'
+        if m.group('loc') in urls_masquees:
+            ligne = f'<!-- Page masquée (photos à fournir) : {ligne} -->'
+        return m.group('retrait') + ligne
+    return RE_URL_SITEMAP.sub(remplacement, contenu)
+
+
 def main():
     valeurs, anglais, alertes = lire_configuration()
     erreurs = verifier(valeurs)
@@ -227,6 +258,7 @@ def main():
     domaine_actuel = m.group(1) if m else DOMAINE_PROVISOIRE
 
     modifications = {}
+    masquees = []
     for fichier in pages + [RACINE / 'robots.txt', RACINE / 'sitemap.xml']:
         if not fichier.exists():
             continue
@@ -237,15 +269,29 @@ def main():
             langue = 'en' if fichier.parent.name == 'en' else 'fr'
             apres = remplacer_spans(apres, rendus_langue[langue], langue, compteur)
             if fichier.name != '404.html':
-                apres = RE_ROBOTS.sub(f'<meta name="robots" content="{"index, follow" if indexation else "noindex"}" data-info-meta="indexation">', apres)
+                # Une page qui attend encore ses photos reste hors des moteurs de recherche
+                masquee = photos_a_fournir(apres)
+                if masquee:
+                    masquees.append(fichier.relative_to(RACINE).as_posix())
+                robots = 'index, follow' if indexation and not masquee else 'noindex'
+                apres = RE_ROBOTS.sub(f'<meta name="robots" content="{robots}" data-info-meta="indexation">', apres)
             adresse = html.escape(valeurs['adresse_reception'], quote=True)
             # Seule la balise <form> est modifiée (pas les commentaires qui citent ces attributs)
             apres = re.sub(r'(<form\b[^>]*\sdata-adresse-reception=")[^"]*(")', lambda m: m.group(1) + adresse + m.group(2), apres, count=1)
             apres = re.sub(r'(<form\b[^>]*\sdata-mode-envoi=")[^"]*(")', lambda m: m.group(1) + mode + m.group(2), apres, count=1)
         if domaine_actuel != adresse_site:
             apres = apres.replace(domaine_actuel, adresse_site)
+        if fichier.name == 'sitemap.xml':
+            apres = ajuster_sitemap(apres, {url_page(r, adresse_site) for r in masquees})
         if apres != avant:
             modifications[fichier] = (apres, compteur[0])
+
+    # Fichier CNAME : domaine relié au site sur GitHub Pages (une seule ligne, sans « https:// »)
+    hote = urlsplit(adresse_site).hostname or ''
+    cname = RACINE / 'CNAME'
+    if adresse_site != DOMAINE_PROVISOIRE and hote:
+        if not cname.exists() or cname.read_text(encoding='utf-8').strip() != hote:
+            modifications[cname] = (hote, 0)
 
     for fichier, (contenu, _n) in modifications.items():
         fichier.write_text(contenu, encoding='utf-8')
@@ -261,6 +307,10 @@ def main():
               + ' (traduction possible dans la section [version_anglaise]).')
     print(f'Adresse du site : {adresse_site}' + (' (adresse provisoire)' if adresse_site == DOMAINE_PROVISOIRE else ''))
     print('Référencement : ' + ('autorisé (index, follow)' if indexation else 'bloqué (noindex) tant que « indexation = non »'))
+    if masquees:
+        print('Pages tenues hors des moteurs de recherche (photos à fournir) : ' + ', '.join(masquees))
+    if adresse_site != DOMAINE_PROVISOIRE and hote:
+        print(f'Fichier CNAME (domaine relié sur GitHub Pages) : {hote}')
     print('Formulaire de devis : ' + (f'ACTIF, envoi vers {valeurs["adresse_reception"]} (mode {mode})' if valeurs['adresse_reception'] else 'inactif (aucune adresse de réception)'))
     if modifications:
         print('\nFichiers mis à jour :')

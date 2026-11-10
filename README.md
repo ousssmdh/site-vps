@@ -1,14 +1,14 @@
 # Site vitrine — VPS – Vigilance Protection Sécurité
 
-Site statique multipage en HTML, CSS et JavaScript simples : aucun serveur, aucune base de données, aucune bibliothèque ni ressource externe (la police de caractères est hébergée avec le site). Il fonctionne en local et pourra être publié plus tard sur **GitHub Pages** avec votre nom de domaine.
+Site statique multipage en HTML, CSS et JavaScript simples : aucun serveur, aucune base de données, aucune bibliothèque ni ressource externe (la police de caractères est hébergée avec le site). Il fonctionne en local et il est publié sur **GitHub Pages**, à relier à son nom de domaine **www.vps-securite.fr** (section 10).
 
 Le site existe en **français** (racine du site) et en **anglais** (dossier `en/`) : un bouton **FR / EN** en haut de chaque page mène à la même page dans l'autre langue.
 
 Il s'affiche en **clair** ou en **sombre** : un bouton **lune / soleil** en haut de chaque page (et la ligne « Affichage » du menu sur téléphone) passe d'un affichage à l'autre. L'affichage clair est proposé par défaut et le choix de chaque visiteur est mémorisé (section 3).
 
-> **Presque prêt.** Il reste à ajouter les **photos de la galerie** (section 6).
-> - L'adresse **contact@vps-securite.fr** est affichée sur le site et le **formulaire de devis est branché** sur le service gratuit FormSubmit : les demandes arrivent par e-mail à cette adresse, **après un clic de confirmation lors du tout premier envoi** (section 8).
-> - Jusqu'à la mise en ligne, chaque page contient une balise **`noindex`** qui empêche son référencement (à lever le jour de la mise en ligne, section 9).
+> **En ligne.** Le site est publié sur GitHub Pages et prêt pour son adresse définitive **www.vps-securite.fr** : les réglages à faire chez OVHcloud et sur GitHub sont détaillés pas à pas en [section 10](#10-votre-domaine-wwwvps-securitefr).
+> - L'adresse **contact@vps-securite.fr** est affichée sur le site et le **formulaire de devis fonctionne** (service gratuit FormSubmit, activé le 10 novembre 2026 ; section 8).
+> - Le **référencement est ouvert** (`indexation = oui`), sauf pour la **galerie**, tenue hors des moteurs de recherche tant que ses **photos** ne sont pas en place (sections 6 et 9).
 >
 > **Les informations manquantes (téléphone, e-mail, zone d'intervention, mentions légales…) se renseignent dans un seul fichier : `config/infos-vps.ini`. Enregistrez-le, puis actualisez la page (F5) : rien à installer, rien à lancer** — voir [section 5](#5-modifier-les-textes).
 >
@@ -25,7 +25,7 @@ Il s'affiche en **clair** ou en **sombre** : un bouton **lune / soleil** en haut
 7. [Prestations et références](#7-prestations-et-références)
 8. [Activer la réception des demandes de devis](#8-activer-la-réception-des-demandes-de-devis)
 9. [Référencement](#9-référencement)
-10. [Publier plus tard sur GitHub Pages avec votre domaine](#10-publier-plus-tard-sur-github-pages-avec-votre-domaine)
+10. [Votre domaine www.vps-securite.fr](#10-votre-domaine-wwwvps-securitefr)
 11. [Liste de vérification avant publication](#11-liste-de-vérification-avant-publication)
 12. [Sécurité et données](#12-sécurité-et-données)
 
@@ -50,6 +50,7 @@ site-vps/
 ├── favicon.ico              Icône d'onglet (tirée du logo)
 ├── robots.txt · sitemap.xml Fichiers pour les moteurs de recherche (pages françaises et anglaises)
 ├── _config.yml              Exclut README.md et outils/ du site publié
+├── CNAME                    Domaine relié au site sur GitHub Pages (www.vps-securite.fr) : à conserver
 ├── README.md                Ce guide
 ├── config/infos-vps.ini     LE fichier à remplir : coordonnées, mentions légales, formulaire, textes anglais
 ├── css/style.css            Mise en forme (couleurs : section 2 pour l'affichage sombre, section 18 pour le clair)
@@ -62,7 +63,7 @@ site-vps/
 │   ├── galerie/             emplacements photo « …-a-remplacer.svg » (versions « …-a-remplacer-en.svg » en anglais)
 │   └── partage/             vps-partage.jpg (aperçu lors d'un partage de lien)
 └── outils/                  FACULTATIF (Python 3), utile avant la mise en ligne
-    ├── preparer_publication.py   Inscrit les informations dans les pages, règle l'indexation et l'adresse du site
+    ├── preparer_publication.py   Inscrit les informations dans les pages, règle l'indexation, l'adresse du site et le CNAME
     ├── preparer-publication.bat  Raccourci Windows (double-clic) pour l'outil ci-dessus
     └── verifier_site.py          Vérification automatique avant publication
 ```
@@ -203,8 +204,8 @@ Si le fichier ne peut pas être lu, ou si une valeur est invalide (e-mail mal é
 | Téléphone de l'hébergeur | `hebergeur_telephone` | mentions légales |
 | Crédits photos | `credits_photos` | mentions légales |
 | Date de mise à jour | `date_mise_a_jour` | mentions légales, confidentialité |
-| Adresse du site | `adresse_site` | adresses de référence, partage, `sitemap.xml`, `robots.txt` (appliquée par l'outil de préparation) |
-| Référencement | `indexation` (`non` / `oui`) | balise `robots` de chaque page (appliquée par l'outil de préparation) |
+| Adresse du site | `adresse_site` | adresses de référence, partage, `sitemap.xml`, `robots.txt`, fichier `CNAME` (appliquée par l'outil de préparation) |
+| Référencement | `indexation` (`oui` / `non`) | balise `robots` de chaque page et `sitemap.xml` ; la galerie reste exclue tant que ses photos sont à fournir (appliqué par l'outil de préparation) |
 | Formulaire de devis | `adresse_reception`, `mode_envoi` | `devis.html` et `en/quote.html` (adresse d'envoi FormSubmit ; vide = formulaire inactif) |
 | Textes des pages anglaises | section `[version_anglaise]` | pages du dossier `en/` |
 
@@ -214,7 +215,7 @@ Bon à savoir :
 - la section `[version_anglaise]` reçoit la traduction des textes (zone d'intervention, présentation, capital social, directeur de la publication…) ; une ligne vide reprend le texte français ; une date écrite « 5 novembre 2026 » est traduite automatiquement ;
 - le fichier est publié avec le site : n'y écrivez que des informations publiques, jamais de mot de passe ni de clé secrète.
 
-**Avant la mise en ligne (facultatif)** : l'outil `outils/preparer_publication.py` inscrit aussi ces informations directement dans le code des pages (utile au référencement, et affichées même si le fichier ne pouvait pas être lu), règle l'indexation et reporte l'adresse définitive du site. Il demande Python 3 (gratuit sur python.org) : double-cliquez sur `outils\preparer-publication.bat`, ou lancez `python outils/preparer_publication.py` depuis le dossier du site. Sans Python, le raccourci affiche simplement un message : ce n'est pas bloquant. Les informations renseignées au 10 novembre 2026 ont déjà été inscrites dans les pages.
+**Avant la mise en ligne (facultatif)** : l'outil `outils/preparer_publication.py` inscrit aussi ces informations directement dans le code des pages (utile au référencement, et affichées même si le fichier ne pouvait pas être lu), règle l'indexation, reporte l'adresse définitive du site et met à jour le fichier `CNAME`. Il demande Python 3 (gratuit sur python.org) : double-cliquez sur `outils\preparer-publication.bat`, ou lancez `python outils/preparer_publication.py` depuis le dossier du site. Sans Python, le raccourci affiche simplement un message : ce n'est pas bloquant. Les informations renseignées au 10 novembre 2026 ont déjà été inscrites dans les pages.
 
 Les autres contenus (textes de présentation des prestations, références, légendes des photos, paragraphes juridiques à faire valider) se modifient directement dans les pages, comme expliqué ci-dessous.
 
@@ -338,7 +339,9 @@ mode_envoi = ajax
 
 Les demandes envoyées depuis `devis.html` et `en/quote.html` arrivent à **contact@vps-securite.fr**, sous forme de tableau, avec l'objet « Nouvelle demande de devis – site VPS » (« … (version anglaise) … » pour la page anglaise). Le bouton **Répondre** de votre messagerie écrit directement au demandeur.
 
-### Activation (une seule fois)
+### Activation (faite le 10 novembre 2026)
+
+À refaire seulement si FormSubmit la redemande (par exemple après le passage au domaine www.vps-securite.fr) :
 
 1. Ouvrez la page **Demande de devis** du site **en ligne** et envoyez une demande de test (l'envoi ne fonctionne pas depuis un fichier ouvert par double-clic).
 2. FormSubmit envoie aussitôt à contact@vps-securite.fr un e-mail de confirmation : cliquez sur **Activate Form**. Regardez aussi dans les courriers indésirables.
@@ -352,7 +355,7 @@ Tant que l'activation n'est pas faite, la page affiche « Le formulaire est en c
 
 - **Confirmation honnête** : « Merci : votre demande a bien été envoyée » ne s'affiche **que si FormSubmit confirme la réception**. En cas d'échec, la page invite à réessayer ou à utiliser la page Contact ; l'adresse e-mail est aussi affichée sous le bouton d'envoi.
 - **Anti-spam** : un champ invisible (`_honey`) écarte les robots qui le remplissent. En cas de demandes indésirables, FormSubmit permet d'ajouter un champ caché `_blacklist` (liste de mots à bloquer).
-- **Changement d'adresse du site** (passage au domaine www.vps-securite.fr) : FormSubmit peut redemander une confirmation ; refaites alors les étapes 1 et 2.
+- **Changement d'adresse du site** (passage au domaine www.vps-securite.fr) : FormSubmit peut redemander une confirmation ; refaites alors les étapes 1 et 2. Les demandes envoyées en attendant sont conservées par FormSubmit (30 jours selon son aide en ligne) et transmises après le clic.
 - **Masquer l'adresse dans le code** (facultatif) : après l'activation, FormSubmit fournit une adresse de remplacement aléatoire, à mettre à la place de `contact@vps-securite.fr` à la fin de `adresse_reception`. Ce n'est pas indispensable : l'adresse est déjà affichée sur le site.
 - **Mode `classique`** : le navigateur affiche alors les pages de FormSubmit (vérification anti-robot, puis confirmation). Le script adapte l'adresse d'envoi tout seul.
 - **Données personnelles** : la politique de confidentialité (destinataires, transferts, sécurité) et l'encadré « Utilisation de vos données » de la page devis indiquent que les demandes transitent par FormSubmit. FormSubmit ne publie ni contrat de sous-traitance ni localisation de ses serveurs : pour un cadre plus solide (hébergement en Europe, contrat de sous-traitance), choisissez un autre service, collez l'adresse d'envoi qu'il fournit dans `adresse_reception`, et adaptez ces textes ainsi que le nom du champ anti-spam.
@@ -366,19 +369,93 @@ Tant que l'activation n'est pas faite, la page affiche « Le formulaire est en c
 
 **Déjà en place** : titre et description propres à chaque page (avec « Marseille »), adresse canonique, balises de partage (Open Graph) et image de partage, données structurées « Organization » sur l'accueil (nom, adresse, SIRET), `sitemap.xml`, `robots.txt`, langues déclarées (français et anglais) avec liens `hreflang` entre les deux versions, pages légères sans ressource externe.
 
-**Avant publication** :
+**Réglage actuel** : `indexation = oui` dans `config/infos-vps.ini` (depuis le 10 novembre 2026). Les pages portent la balise `index, follow` et figurent dans `sitemap.xml`, sauf :
 
-1. L'adresse `https://www.vps-securite.fr` est déjà inscrite partout (pages, `sitemap.xml`, `robots.txt`). Vérifiez que ce nom de domaine est bien réservé au nom de VPS. S'il change, modifiez `adresse_site` puis lancez l'outil de préparation.
-2. Quand tout est complété et validé, passez `indexation = oui` dans `config/infos-vps.ini` et lancez l'outil de préparation : la balise `noindex` de chaque page (sauf `404.html`) devient `index, follow`. Sans Python, faites ce remplacement dans les 18 pages avec « Rechercher et remplacer dans les fichiers » de Visual Studio Code (`Ctrl + Maj + H`) : `content="noindex" data-info-meta="indexation"` devient `content="index, follow" data-info-meta="indexation"`.
-3. Une fois la zone d'intervention confirmée, ajoutez-la dans les titres et descriptions.
+- la **galerie** (`galerie.html`, `en/gallery.html`) : tant qu'elle affiche des emplacements « photo à fournir », elle garde la balise `noindex` et sa ligne de `sitemap.xml` est mise en commentaire. Dès que les vraies photos remplacent les emplacements, l'outil de préparation l'ouvre automatiquement aux moteurs de recherche ;
+- la page `404.html`, jamais référencée.
 
-**Après publication** : déclarez le site dans Google Search Console et Bing Webmaster Tools, puis soumettez l'adresse du `sitemap.xml`. Une fiche d'établissement Google peut compléter le référencement local.
+Pour bloquer de nouveau tout le référencement : `indexation = non`, puis lancez l'outil de préparation. Sans Python, utilisez « Rechercher et remplacer dans les fichiers » de Visual Studio Code (`Ctrl + Maj + H`) : `content="index, follow" data-info-meta="indexation"` devient `content="noindex" data-info-meta="indexation"` (et inversement pour rouvrir).
+
+**Pour apparaître plus vite sur Google**, une fois le domaine actif (section 10) : dans Google Search Console, ajoutez une propriété de type « Domaine » `vps-securite.fr` (vérification par un enregistrement TXT chez OVHcloud, comme à l'étape 2 de la section 10), puis soumettez `https://www.vps-securite.fr/sitemap.xml`. Faites de même dans Bing Webmaster Tools, qui peut reprendre la propriété depuis Google Search Console. Une fiche d'établissement Google complète le référencement local.
 
 ---
 
-## 10. Publier plus tard sur GitHub Pages avec votre domaine
+## 10. Votre domaine www.vps-securite.fr
 
-> Rien n'a été publié ni connecté à GitHub. Ces étapes sont à suivre plus tard, une fois tous les contenus validés.
+**Situation au 10 novembre 2026**
+
+- Le site est publié sur GitHub Pages depuis le dépôt public `ousssmdh/site-vps` (Settings › Pages : « Deploy from a branch », branche `main`, dossier `/ (root)`) : https://ousssmdh.github.io/site-vps/.
+- Le nom de domaine `vps-securite.fr` est géré chez **OVHcloud** (serveurs DNS `dns103.ovh.net` et `ns103.ovh.net`) ; ses e-mails passent par **Zoho Mail**.
+- Adresse retenue : **https://www.vps-securite.fr** (avec www). `vps-securite.fr` sans www et l'ancienne adresse github.io y renverront automatiquement.
+- Côté site, tout est prêt : adresses des pages, `sitemap.xml`, `robots.txt`, page 404 (mise en forme à la racine du domaine) et fichier `CNAME` contenant `www.vps-securite.fr`.
+
+Il reste quelques réglages à faire vous-même, dans l'ordre ci-dessous (une quinzaine de minutes, plus le délai de propagation).
+
+### Étape 1 – GitHub : demander la vérification du domaine
+
+Photo de profil (en haut à droite) › **Settings** › **Pages** (rubrique « Code, planning, and automation ») › **Add a domain** › saisissez `vps-securite.fr` › **Add domain**.
+
+GitHub affiche un enregistrement TXT à créer : nom `_github-pages-challenge-ousssmdh`, valeur = un code. Gardez la page ouverte. Cette vérification empêche tout autre compte GitHub d'utiliser votre domaine ou ses sous-domaines.
+
+### Étape 2 – OVHcloud : modifier la zone DNS
+
+Espace client OVHcloud › **Web Cloud** › **Noms de domaine** › `vps-securite.fr` › onglet **Zone DNS**.
+
+**a. Supprimez** les 3 enregistrements par défaut d'OVHcloud (menu ⋮ de la ligne › « Supprimer l'entrée ») :
+
+| Sous-domaine | Type | Cible |
+|---|---|---|
+| *(vide)* | A | `213.186.33.5` |
+| `www` | A | `213.186.33.5` |
+| `www` | TXT | `"3\|welcome"` |
+
+**b. Ajoutez** ces enregistrements (« Ajouter une entrée » › type › champs › « Ajouter ») :
+
+| Type | Sous-domaine | Cible / valeur |
+|---|---|---|
+| A | *(laisser vide)* | `185.199.108.153` |
+| A | *(laisser vide)* | `185.199.109.153` |
+| A | *(laisser vide)* | `185.199.110.153` |
+| A | *(laisser vide)* | `185.199.111.153` |
+| CNAME | `www` | `ousssmdh.github.io.` (avec le point final) |
+| TXT | `_github-pages-challenge-ousssmdh` | le code affiché par GitHub à l'étape 1 |
+
+Facultatif (IPv6) : quatre enregistrements AAAA, sous-domaine vide : `2606:50c0:8000::153`, `2606:50c0:8001::153`, `2606:50c0:8002::153`, `2606:50c0:8003::153`.
+
+**Ne touchez à aucun autre enregistrement**, surtout pas à ceux de Zoho Mail : MX (`mx.zoho.eu`, `mx2.zoho.eu`, `mx3.zoho.eu`), TXT `v=spf1 include:zohomail.eu ~all`, TXT `zoho-verification=…` et clé DKIM de Zoho. Le TXT `"1|www.vps-securite.fr"` (ancien réglage d'OVHcloud) peut rester : il est sans effet. N'ajoutez jamais d'enregistrement générique `*`.
+
+### Étape 3 – GitHub : vérifier le domaine
+
+Revenez sur la page de l'étape 1 et cliquez sur **Verify**. Si la vérification échoue, patientez 10 à 15 minutes (le temps qu'OVHcloud publie la zone), puis dans Settings › Pages cliquez sur **⋯** à droite du domaine › **Continue verifying** › **Verify**. Vous pouvez passer à l'étape 4 en attendant. Conservez ensuite l'enregistrement TXT.
+
+### Étape 4 – GitHub : relier le domaine au site
+
+Dépôt `site-vps` › **Settings** › **Pages** › **Custom domain** : saisissez exactement `www.vps-securite.fr` (avec www) › **Save**.
+
+GitHub contrôle les DNS (« DNS check successful » quand tout est bon) et ajoute au dépôt un fichier `CNAME` identique à celui du site : ne le supprimez pas. À partir de là, l'adresse github.io renvoie vers www.vps-securite.fr.
+
+### Étape 5 – Activer le HTTPS
+
+Toujours dans Settings › Pages, cochez **Enforce HTTPS** dès que la case est disponible (certificat gratuit créé par GitHub : de quelques minutes à 24 heures).
+
+### Étape 6 – Contrôles
+
+- https://www.vps-securite.fr affiche le site avec le cadenas ; https://vps-securite.fr et https://ousssmdh.github.io/site-vps/ y renvoient.
+- Une demande de devis test depuis le nouveau domaine : si FormSubmit envoie un nouvel e-mail « Activate Form » à contact@vps-securite.fr, cliquez dessus (section 8).
+- Un e-mail envoyé à contact@vps-securite.fr arrive toujours (Zoho intact).
+- `python outils/verifier_site.py --publication` (facultatif).
+
+### En cas de problème
+
+- **« DNS check unsuccessful »** : patientez (jusqu'à 24 heures), puis contrôlez les enregistrements, par exemple sur https://www.nslookup.io/domains/www.vps-securite.fr/dns-records/ : `www` doit être un CNAME vers `ousssmdh.github.io`, et `vps-securite.fr` doit renvoyer les quatre adresses `185.199.108.153` à `185.199.111.153` (et plus `213.186.33.5`).
+- **« Enforce HTTPS » toujours grisé après 24 heures** : dans Custom domain, cliquez sur **Remove**, saisissez de nouveau `www.vps-securite.fr`, puis **Save** : GitHub relance la création du certificat.
+- **Plus aucun e-mail reçu** : un enregistrement de Zoho a été modifié ; recréez-le avec les valeurs indiquées dans la console d'administration de Zoho Mail (rubrique des domaines).
+
+Sources : documentation GitHub « Managing a custom domain for your GitHub Pages site » et « Verifying your custom domain for GitHub Pages », guide OVHcloud « Éditer une zone DNS OVHcloud ». Ces valeurs peuvent évoluer : vérifiez-les le jour de la configuration.
+
+### Mettre à jour le site ensuite
+
+Dans le dépôt, ouvrez le dossier concerné (par exemple `images/galerie/`), puis « Add file » › « Upload files », glissez les fichiers modifiés et validez avec « Commit changes ». Un fichier déposé à la racine au lieu de son dossier ne s'affiche pas sur le site. Ne supprimez jamais le fichier `CNAME`.
 
 ### Points d'attention
 
@@ -387,51 +464,17 @@ Tant que l'activation n'est pas faite, la page affiche « Le formulaire est en c
 - `README.md` et `outils/` sont exclus du site publié grâce à `_config.yml`. Le fichier `config/infos-vps.ini` est publié (le site y lit les informations) : il ne doit contenir que des informations publiques. Tout reste lisible dans le dépôt public.
 - Les mentions légales indiquent GitHub, Inc. comme hébergeur (adresse et téléphone) : vérifiez ces informations le jour de la publication, ou remplacez-les si vous choisissez un autre hébergeur.
 
-### Étapes
-
-1. Créez un compte GitHub, puis un nouveau dépôt **public** (par exemple `site-vps`).
-2. Ajoutez les fichiers : « Add file » › « Upload files », puis glissez **le contenu** du dossier `site-vps` (et non le dossier lui-même) afin que `index.html` soit à la racine. Validez avec « Commit changes ». Avec Git :
-
-   ```bash
-   cd chemin/vers/site-vps
-   git init
-   git add .
-   git commit -m "Site vitrine VPS"
-   git branch -M main
-   git remote add origin https://github.com/<utilisateur>/<depot>.git
-   git push -u origin main
-   ```
-3. Dans le dépôt : **Settings › Pages**, « Build and deployment » : Source « Deploy from a branch », branche `main`, dossier `/ (root)`, puis « Save ». Le site est visible quelques minutes plus tard à l'adresse `https://<utilisateur>.github.io/<depot>/` (la page 404 n'y est pas mise en forme ; elle le sera avec votre domaine).
-4. **Recommandé** : vérifiez votre domaine dans les paramètres de votre compte GitHub (rubrique Pages, « Add a domain ») **avant** de modifier les DNS.
-5. **Settings › Pages › Custom domain** : saisissez votre domaine (`www.vps-securite.fr`), puis « Save ». GitHub ajoute un fichier `CNAME` au dépôt : conservez-le.
-6. Chez votre registraire (zone DNS du domaine) :
-
-   | Type | Nom | Valeur |
-   |---|---|---|
-   | CNAME | `www` | `<utilisateur>.github.io` (sans le nom du dépôt) |
-   | A | `@` (domaine sans www) | `185.199.108.153` |
-   | A | `@` | `185.199.109.153` |
-   | A | `@` | `185.199.110.153` |
-   | A | `@` | `185.199.111.153` |
-   | AAAA (facultatif) | `@` | `2606:50c0:8000::153`, `2606:50c0:8001::153`, `2606:50c0:8002::153`, `2606:50c0:8003::153` |
-
-   Supprimez les enregistrements par défaut du registraire sur ces noms et n'utilisez pas d'enregistrement générique `*.vps-securite.fr`. La propagation peut prendre jusqu'à 24 heures.
-
-   **Ne touchez pas aux enregistrements MX et TXT (SPF, DKIM, vérification) de Zoho Mail** : ils font fonctionner les adresses e-mail @vps-securite.fr, dont contact@vps-securite.fr.
-7. De retour dans **Settings › Pages**, cochez **« Enforce HTTPS »** dès que l'option est disponible (jusqu'à 24 heures).
-8. Contrôle final sur le vrai domaine : chaque page dans les deux langues, le bouton FR / EN, le menu sur téléphone, le formulaire, l'aperçu de partage, et `python outils/verifier_site.py --publication`.
-
-Source : documentation GitHub « Managing a custom domain for your GitHub Pages site ». Ces valeurs peuvent évoluer : vérifiez-les le jour de la configuration.
-
 ---
 
 ## 11. Liste de vérification avant publication
 
-- [x] Adresse e-mail ajoutée dans `config/infos-vps.ini` (contact@vps-securite.fr).
-- [ ] Photos de la galerie ajoutées, dans les deux langues (accord des personnes photographiées, plaques et détails sensibles vérifiés, crédits indiqués).
+- [x] Adresse e-mail contact@vps-securite.fr ajoutée sur le site.
+- [x] Formulaire de devis activé et testé depuis le site en ligne (10 novembre 2026).
+- [x] Référencement ouvert (`indexation = oui`) ; galerie exclue tant que ses photos sont à fournir.
+- [ ] Domaine relié : étapes 1 à 6 de la section 10 (zone DNS OVHcloud, vérification GitHub, Custom domain, Enforce HTTPS), puis demande de devis test depuis https://www.vps-securite.fr.
+- [ ] Photos de la galerie ajoutées, dans les deux langues (accord des personnes photographiées, plaques et détails sensibles vérifiés, crédits indiqués), puis outil de préparation relancé.
 - [ ] Capital social vérifié sur un Kbis récent.
-- [ ] Formulaire activé (clic sur « Activate Form » dans l'e-mail de FormSubmit) et testé depuis le site en ligne (section 8).
-- [ ] Nom de domaine `vps-securite.fr` réservé au nom de VPS ; `indexation = oui`, puis outil de préparation lancé ou remplacement manuel (section 9).
+- [ ] Site déclaré dans Google Search Console avec son `sitemap.xml` (section 9).
 - [ ] Tests sur téléphone, tablette et ordinateur, dans les deux langues ; `python outils/verifier_site.py --publication` sans erreur.
 
 ---
@@ -441,5 +484,6 @@ Source : documentation GitHub « Managing a custom domain for your GitHub Pages 
 - Aucun secret, mot de passe, clé d'API ni donnée personnelle dans le code : tout ce qui est publié est public.
 - Le site ne dépose aucun cookie et ne charge aucune ressource externe (police, script, carte, vidéo, outil de statistiques) ; il lit seulement son propre fichier `config/infos-vps.ini`. Seul le choix d'affichage clair ou sombre d'un visiteur est enregistré dans son propre navigateur (stockage local), à sa demande ; la politique de confidentialité l'indique. Seul l'envoi du formulaire de devis contacte un service extérieur (FormSubmit), au moment où le visiteur clique sur le bouton d'envoi. Si vous en ajoutez, mettez à jour la politique de confidentialité et vérifiez si un recueil du consentement est nécessaire.
 - Le formulaire invite les visiteurs à ne transmettre aucune information sensible (codes d'accès, plans de sécurité). Les demandes arrivent dans la boîte contact@vps-securite.fr : limitez son accès aux personnes qui traitent les devis.
+- **Domaine** : gardez le domaine vérifié sur GitHub (enregistrement TXT `_github-pages-challenge-ousssmdh`) ; il empêche un autre compte d'utiliser vps-securite.fr. Si vous arrêtez un jour le site GitHub Pages, supprimez aussi chez OVHcloud les enregistrements qui pointent vers GitHub.
 - Ne publiez pas le document d'autorisation du CNAPS lui-même : le numéro suffit.
 - Conservez les preuves : accords des références, autorisations de droit à l'image.
