@@ -672,6 +672,77 @@ html[data-theme="clair"] .alerte-locale { background: #e9c47a; color: #05080f; }
   }
 }
 
+/* 19. Photos et vidéo réelles (accueil, L'entreprise, galerie) ---------------------------------------
+   Fichiers : images/galerie/ (deux tailles par photo) et videos/. Voir README.md, section 6. */
+.photo-equipe { object-position: 50% 42%; }
+.photo-acces { object-position: 35% 55%; }
+.photo-agent { object-position: 50% 30%; }
+/* Accueil : « Sur le terrain » (vidéo et deux photos) */
+.terrain-grille { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 24px; margin: 0; padding: 0; list-style: none; }
+.terrain-media { position: relative; overflow: hidden; aspect-ratio: 4 / 5; border-radius: 2px; background: var(--encre-2); }
+.terrain-media img, .terrain-media video { display: block; width: 100%; height: 100%; object-fit: cover; }
+.terrain-carte > .label { margin-top: 18px; }
+.terrain-carte h3 { margin-top: 6px; font-size: 1.25rem; letter-spacing: -.02em; line-height: 1.25; }
+/* Bouton lecture / pause posé sur la vidéo (couleurs fixes : toujours sur l'image) */
+.video-bouton { position: absolute; left: 14px; bottom: 14px; display: inline-grid; place-items: center; width: 44px; height: 44px; padding: 0; border: 1px solid rgba(242, 244, 247, .5); border-radius: 2px; background: rgba(5, 8, 15, .55); color: #f2f4f7; cursor: pointer; -webkit-backdrop-filter: blur(6px); backdrop-filter: blur(6px); transition: border-color .2s ease, background-color .2s ease; }
+.video-bouton:hover { border-color: #f2f4f7; background: rgba(5, 8, 15, .75); }
+.video-bouton:focus-visible { outline: 2px solid #f2f4f7; outline-offset: 2px; }
+.video-bouton svg { width: 18px; height: 18px; }
+.video-bouton .icone-pause, .video-bouton.est-en-lecture .icone-lecture { display: none; }
+.video-bouton.est-en-lecture .icone-pause { display: block; }
+/* Galerie : vidéo et texte */
+.video-bloc { display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); gap: 48px 24px; align-items: end; }
+.video-texte { grid-column: 1 / 6; }
+.video-texte h2 { margin-top: 28px; font-size: clamp(2.25rem, 4.8vw, 5rem); line-height: 1; letter-spacing: -.04em; }
+.video-texte p:not(.label) { max-width: 30rem; margin-top: 24px; color: var(--doux); font-size: 1.0625rem; }
+.video-cadre { grid-column: 7 / 13; margin: 0; }
+.video-cadre video { display: block; width: 100%; height: auto; aspect-ratio: 4 / 5; border-radius: 2px; background: var(--encre-2); }
+/* Galerie : grille de photos (une photo en largeur, puis trois en hauteur) */
+.galerie-grille { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: clamp(40px, 5vw, 64px) 24px; margin: 0; padding: 0; list-style: none; }
+.galerie-large { grid-column: 1 / -1; }
+.galerie-grille figure { margin: 0; }
+.galerie-lien { position: relative; display: block; overflow: hidden; border-radius: 2px; background: var(--encre-2); cursor: zoom-in; }
+.galerie-lien img { display: block; width: 100%; height: auto; object-fit: cover; transition: transform .8s cubic-bezier(.2, .7, .2, 1); }
+.galerie-large .galerie-lien img { aspect-ratio: 16 / 9; }
+.galerie-portrait .galerie-lien img { aspect-ratio: 3 / 4; }
+.galerie-lien::after { content: ""; position: absolute; right: 14px; bottom: 14px; width: 44px; height: 44px; border-radius: 2px; background: rgba(5, 8, 15, .6) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23f2f4f7' stroke-width='1.8' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M14 4h6v6M10 20H4v-6M20 4l-7 7M4 20l7-7'/%3E%3C/svg%3E") center / 18px no-repeat; opacity: 0; transition: opacity .3s ease; }
+.galerie-lien:hover::after, .galerie-lien:focus-visible::after { opacity: 1; }
+@media (hover: hover) { .galerie-lien:hover img { transform: scale(1.02); } }
+.galerie-grille figcaption { display: flex; flex-direction: column; align-items: flex-start; gap: 8px; padding-top: 16px; }
+.galerie-note { max-width: 44rem; margin-top: clamp(48px, 6vw, 80px); padding-top: 20px; border-top: 1px solid var(--ligne); color: var(--doux); font-size: .875rem; }
+/* L'entreprise : deux photos sous la présentation */
+.photos-duo { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 24px; max-width: 56rem; margin: 56px 0 0; padding: 0; list-style: none; }
+.photos-duo figure { margin: 0; }
+.photos-duo img { display: block; width: 100%; height: auto; aspect-ratio: 3 / 4; object-fit: cover; border-radius: 2px; background: var(--encre-2); }
+.photos-duo figcaption { padding-top: 14px; color: var(--doux); font-size: .9375rem; }
+/* Visionneuse de photos (galerie) : toujours sur fond sombre */
+.visionneuse { position: fixed; inset: 0; width: 100%; height: 100%; max-width: none; max-height: none; margin: 0; padding: 0; border: 0; background: #05080f; color: #f2f4f7; overflow: hidden; overscroll-behavior: contain; }
+.visionneuse::backdrop { background: #05080f; }
+.visionneuse-corps { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 20px; height: 100%; padding: 76px var(--marge) 24px; }
+.visionneuse figure { display: flex; flex-direction: column; align-items: center; gap: 16px; min-height: 0; margin: 0; }
+.visionneuse img { display: block; width: auto; height: auto; max-width: 100%; max-height: calc(100vh - 210px); max-height: calc(100dvh - 210px); border-radius: 2px; }
+.visionneuse figcaption { max-width: 48rem; color: rgba(242, 244, 247, .8); font-size: .9375rem; text-align: center; }
+.visionneuse-barre { display: flex; align-items: center; gap: 16px; }
+.visionneuse button { display: inline-grid; place-items: center; width: 48px; height: 48px; padding: 0; border: 1px solid rgba(242, 244, 247, .32); border-radius: 2px; background: transparent; color: #f2f4f7; cursor: pointer; }
+.visionneuse button:hover { border-color: #f2f4f7; }
+.visionneuse :focus-visible { outline: 2px solid #3d8bff; outline-offset: 3px; }
+.visionneuse-fermer { position: absolute; top: 16px; right: var(--marge); }
+.visionneuse-compteur { min-width: 4rem; font-family: var(--mono); font-size: .75rem; letter-spacing: .06em; color: rgba(242, 244, 247, .72); text-align: center; }
+html:has(.visionneuse[open]) { overflow: hidden; }
+@media (max-width: 63.99em) {
+  .video-texte { grid-column: 1 / 7; }
+}
+@media (max-width: 47.99em) {
+  .video-texte, .video-cadre { grid-column: 1 / -1; }
+  .galerie-grille { grid-template-columns: minmax(0, 1fr); }
+  /* Téléphones : les trois cartes défilent horizontalement */
+  .terrain-grille { grid-template-columns: none; grid-auto-flow: column; grid-auto-columns: 82%; overflow-x: auto; margin-inline: calc(var(--marge) * -1); padding: 0 var(--marge) 16px; scroll-snap-type: x mandatory; scroll-padding-inline: var(--marge); overscroll-behavior-x: contain; scrollbar-width: thin; }
+  .terrain-carte { scroll-snap-align: start; }
+}
+@media (max-width: 29.99em) { .photos-duo { grid-template-columns: minmax(0, 1fr); } }
+@media (prefers-reduced-motion: reduce) { .galerie-lien img, .galerie-lien::after { transition: none; } }
+@media print { .video-bouton, .visionneuse { display: none !important; } }
+
 @media print {
   .entete, .menu-mobile, .lien-evitement, .bandeau, .carrousel-controles, .heros-media, .coins, .legende-visuel, .appel { display: none !important; }
   html, body, .clair { background: #fff; color: #000; }

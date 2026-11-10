@@ -7,7 +7,9 @@
    3. Texte révélé mot à mot au défilement
    4. Apparition progressive des contenus
    5. Onglets des prestations (accueil)
-   6. Carrousel de la galerie
+   6. Carrousel (si une page en contient un)
+      6 bis. Visionneuse de photos (galerie)
+      6 ter. Vidéo de l'accueil : lue sans son lorsqu'elle est visible, bouton pause
    7. Année du pied de page
    8. Informations de config/infos-vps.ini (téléphone, e-mail, mentions…)
       → relues à chaque affichage : enregistrez le fichier, puis actualisez
@@ -193,6 +195,127 @@
     window.addEventListener('resize', maj);
     carrousel.classList.add('carrousel--actif');
     maj();
+  });
+
+  /* 6 bis. Visionneuse de photos (galerie) ---------------------------------------
+     Un clic (ou un toucher) sur une photo l'affiche en grand avec sa légende.
+     Flèches du clavier ou glissement du doigt : photo précédente / suivante ;
+     Échap ou bouton « Fermer » : retour à la page. Sans JavaScript, le lien
+     ouvre simplement la grande photo. */
+  var liensPhotos = Array.prototype.slice.call(document.querySelectorAll('[data-visionneuse]'));
+  if (liensPhotos.length && typeof HTMLDialogElement === 'function') {
+    var svg = function (chemin) {
+      return '<svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="1.8" ' +
+        'stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="' + chemin + '"/></svg>';
+    };
+    var visionneuse = document.createElement('dialog');
+    visionneuse.className = 'visionneuse';
+    visionneuse.setAttribute('aria-label', t('Photo agrandie', 'Enlarged photo'));
+    visionneuse.innerHTML =
+      '<div class="visionneuse-corps">' +
+        '<figure><img alt=""><figcaption></figcaption></figure>' +
+        '<div class="visionneuse-barre">' +
+          '<button type="button" data-photo-precedente aria-label="' + t('Photo précédente', 'Previous photo') + '">' + svg('M15 6l-6 6 6 6') + '</button>' +
+          '<span class="visionneuse-compteur" aria-live="polite"></span>' +
+          '<button type="button" data-photo-suivante aria-label="' + t('Photo suivante', 'Next photo') + '">' + svg('M9 6l6 6-6 6') + '</button>' +
+        '</div>' +
+      '</div>' +
+      '<button type="button" class="visionneuse-fermer" aria-label="' + t('Fermer', 'Close') + '">' + svg('M6 6l12 12M18 6L6 18') + '</button>';
+    document.body.appendChild(visionneuse);
+    var grandeImage = visionneuse.querySelector('img');
+    var grandeLegende = visionneuse.querySelector('figcaption');
+    var compteurPhotos = visionneuse.querySelector('.visionneuse-compteur');
+    var boutonFermer = visionneuse.querySelector('.visionneuse-fermer');
+    var indexPhoto = 0;
+    var lienOrigine = null;
+    var deuxChiffres = function (n) { return (n < 10 ? '0' : '') + n; };
+    var afficherPhoto = function (i) {
+      indexPhoto = (i + liensPhotos.length) % liensPhotos.length;
+      var lien = liensPhotos[indexPhoto];
+      var vignette = lien.querySelector('img');
+      var figure = lien.closest('figure');
+      var titre = figure && figure.querySelector('.galerie-titre');
+      var legende = figure && figure.querySelector('.galerie-legende');
+      grandeImage.src = lien.getAttribute('href');
+      grandeImage.alt = vignette ? vignette.alt : '';
+      grandeLegende.textContent = [titre && titre.textContent, legende && legende.textContent].filter(Boolean).join(' — ');
+      compteurPhotos.textContent = deuxChiffres(indexPhoto + 1) + ' / ' + deuxChiffres(liensPhotos.length);
+    };
+    if (liensPhotos.length < 2) visionneuse.querySelector('.visionneuse-barre').hidden = true;
+    liensPhotos.forEach(function (lien, i) {
+      lien.addEventListener('click', function (e) {
+        // Ctrl / Cmd / Maj + clic : la photo s'ouvre dans un onglet, comme un lien ordinaire
+        if (e.ctrlKey || e.metaKey || e.shiftKey || e.altKey || e.button !== 0) return;
+        e.preventDefault();
+        lienOrigine = lien;
+        afficherPhoto(i);
+        visionneuse.showModal();
+        boutonFermer.focus();
+      });
+    });
+    visionneuse.querySelector('[data-photo-precedente]').addEventListener('click', function () { afficherPhoto(indexPhoto - 1); });
+    visionneuse.querySelector('[data-photo-suivante]').addEventListener('click', function () { afficherPhoto(indexPhoto + 1); });
+    boutonFermer.addEventListener('click', function () { visionneuse.close(); });
+    visionneuse.addEventListener('click', function (e) {
+      // Un clic hors de la photo et des boutons ferme la visionneuse
+      if (e.target === visionneuse || e.target.classList.contains('visionneuse-corps') || e.target.tagName === 'FIGURE') visionneuse.close();
+    });
+    visionneuse.addEventListener('keydown', function (e) {
+      if (e.key === 'ArrowLeft') { e.preventDefault(); afficherPhoto(indexPhoto - 1); }
+      if (e.key === 'ArrowRight') { e.preventDefault(); afficherPhoto(indexPhoto + 1); }
+    });
+    var departX = null;
+    visionneuse.addEventListener('touchstart', function (e) { departX = e.touches[0].clientX; }, { passive: true });
+    visionneuse.addEventListener('touchend', function (e) {
+      if (departX === null) return;
+      var ecart = e.changedTouches[0].clientX - departX;
+      departX = null;
+      if (Math.abs(ecart) > 50 && liensPhotos.length > 1) afficherPhoto(indexPhoto + (ecart < 0 ? 1 : -1));
+    });
+    visionneuse.addEventListener('close', function () {
+      grandeImage.removeAttribute('src');
+      if (lienOrigine) lienOrigine.focus();
+    });
+  }
+
+  /* 6 ter. Vidéo de l'accueil ------------------------------------------------------
+     Lue sans son et en boucle lorsqu'elle est visible à l'écran, avec un bouton
+     lecture / pause. Elle ne démarre pas seule si le visiteur a demandé à réduire
+     les animations ou à économiser les données (réglages de son appareil) : le
+     bouton permet alors de la lancer. Sans JavaScript, les commandes du navigateur
+     restent affichées. */
+  Array.prototype.forEach.call(document.querySelectorAll('[data-video-auto]'), function (video) {
+    var bouton = video.parentNode.querySelector('[data-video-bouton]');
+    if (!bouton) return;
+    var economie = navigator.connection && navigator.connection.saveData;
+    var arretVoulu = mouvementReduit.matches || !!economie;
+    video.removeAttribute('controls');
+    video.muted = true;
+    bouton.hidden = false;
+    var majBouton = function () {
+      var enLecture = !video.paused;
+      bouton.classList.toggle('est-en-lecture', enLecture);
+      bouton.setAttribute('aria-label', enLecture ? t('Mettre la vidéo en pause', 'Pause the video') : t('Lire la vidéo', 'Play the video'));
+    };
+    var lire = function () {
+      var promesse = video.play();
+      if (promesse && typeof promesse.catch === 'function') promesse.catch(majBouton);
+    };
+    bouton.addEventListener('click', function () {
+      if (video.paused) { arretVoulu = false; lire(); } else { arretVoulu = true; video.pause(); }
+    });
+    video.addEventListener('play', majBouton);
+    video.addEventListener('pause', majBouton);
+    if ('IntersectionObserver' in window) {
+      new IntersectionObserver(function (entrees) {
+        entrees.forEach(function (entree) {
+          if (entree.isIntersecting) { if (!arretVoulu) lire(); } else if (!video.paused) { video.pause(); }
+        });
+      }, { threshold: 0.35 }).observe(video);
+    } else if (!arretVoulu) {
+      lire();
+    }
+    majBouton();
   });
 
   /* 7. Année du pied de page ------------------------------------------------------ */

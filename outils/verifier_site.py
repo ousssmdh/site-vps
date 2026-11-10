@@ -67,6 +67,8 @@ class Analyse(HTMLParser):
                 self.references.append((a['href'], ligne))
         if balise in ('img', 'script', 'source', 'iframe', 'audio', 'video') and a.get('src'):
             self.references.append((a['src'], ligne))
+        if balise == 'video' and a.get('poster'):
+            self.references.append((a['poster'], ligne))
         if balise in ('img', 'source') and a.get('srcset'):
             for morceau in a['srcset'].split(','):
                 if morceau.strip():

@@ -8,7 +8,8 @@ Il s'affiche en **clair** ou en **sombre** : un bouton **lune / soleil** en haut
 
 > **En ligne.** Le site est en ligne à son adresse définitive **https://www.vps-securite.fr** depuis le 10 novembre 2026 (domaine relié, certificat HTTPS délivré par GitHub) ; les réglages faits chez OVHcloud et sur GitHub sont détaillés en [section 10](#10-votre-domaine-wwwvps-securitefr).
 > - L'adresse **contact@vps-securite.fr** est affichée sur le site et le **formulaire de devis fonctionne** (service gratuit FormSubmit, activé le 10 novembre 2026 ; section 8).
-> - Le **référencement est ouvert** (`indexation = oui`), sauf pour la **galerie**, tenue hors des moteurs de recherche tant que ses **photos** ne sont pas en place (sections 6 et 9).
+> - Le **référencement est ouvert** (`indexation = oui`) sur toutes les pages, galerie comprise (section 9).
+> - Les **photos et la vidéo réelles** de VPS sont en place sur l'accueil, la page L'entreprise et la galerie (section 6).
 >
 > **Les informations manquantes (téléphone, e-mail, zone d'intervention, mentions légales…) se renseignent dans un seul fichier : `config/infos-vps.ini`. Enregistrez-le, puis actualisez la page (F5) : rien à installer, rien à lancer** — voir [section 5](#5-modifier-les-textes).
 >
@@ -38,7 +39,7 @@ site-vps/
 ├── index.html               Accueil
 ├── entreprise.html          L'entreprise
 ├── prestations.html         Prestations
-├── galerie.html             Galerie (carrousel de photos)
+├── galerie.html             Galerie (vidéo et photos réelles, visionneuse)
 ├── devis.html               Demande de devis professionnel
 ├── contact.html             Contact
 ├── mentions-legales.html    Mentions légales
@@ -54,14 +55,15 @@ site-vps/
 ├── README.md                Ce guide
 ├── config/infos-vps.ini     LE fichier à remplir : coordonnées, mentions légales, formulaire, textes anglais
 ├── css/style.css            Mise en forme (couleurs : section 2 pour l'affichage sombre, section 18 pour le clair)
-├── js/main.js               Menu, onglets, carrousel, animations, lecture de config/infos-vps.ini, formulaire
+├── js/main.js               Menu, onglets, animations, visionneuse de photos, vidéo de l'accueil, lecture de config/infos-vps.ini, formulaire
 ├── js/theme.js              Affichage clair / sombre (affichage proposé par défaut réglable en haut du fichier)
 ├── fonts/                   Police Geist (+ sa licence libre, licence-geist.txt)
 ├── images/
 │   ├── logo/                logo-vps-160.webp (en-tête), logo-vps-800.webp (référencement), apple-touch-icon.png
 │   ├── ambiance/            7 visuels générés par IA : 4 vues de nuit, 2 scènes « sécurité incendie », 1 agent cynophile
-│   ├── galerie/             emplacements photo « …-a-remplacer.svg » (versions « …-a-remplacer-en.svg » en anglais)
+│   ├── galerie/             4 photos réelles de VPS (2 tailles chacune) et l'image d'aperçu de la vidéo
 │   └── partage/             vps-partage.jpg (aperçu lors d'un partage de lien)
+├── videos/                  vps-sur-le-terrain.mp4 : vidéo sans son (accueil et galerie)
 └── outils/                  FACULTATIF (Python 3), utile avant la mise en ligne
     ├── preparer_publication.py   Inscrit les informations dans les pages, règle l'indexation, l'adresse du site et le CNAME
     ├── preparer-publication.bat  Raccourci Windows (double-clic) pour l'outil ci-dessus
@@ -93,7 +95,7 @@ python outils/verifier_site.py --publication   # contrôle final : échoue s'il 
 
 L'envoi du formulaire de devis ne fonctionne pas depuis un fichier ouvert par double-clic : testez-le sur le site en ligne (section 8).
 
-**Tests manuels conseillés** : bouton FR / EN et bouton lune / soleil (affichage clair / sombre) sur chaque page, menu sur téléphone (bouton « Menu »), navigation au clavier (`Tab`, `Maj + Tab`, `Entrée`, `Échap` pour fermer le menu), carrousel de la galerie, zoom à 200 %, affichage sur un vrai téléphone.
+**Tests manuels conseillés** : bouton FR / EN et bouton lune / soleil (affichage clair / sombre) sur chaque page, menu sur téléphone (bouton « Menu »), navigation au clavier (`Tab`, `Maj + Tab`, `Entrée`, `Échap` pour fermer le menu), visionneuse de la galerie (flèches, Échap), vidéo de l'accueil (bouton pause), zoom à 200 %, affichage sur un vrai téléphone.
 
 ---
 
@@ -162,7 +164,7 @@ Sources : **autorisation d'exercer délivrée par le CNAPS** (document fourni) e
 
 **Déjà renseignés** dans `config/infos-vps.ini` : téléphone, zone d'intervention, capital social (5 000 € : vérifiez-le sur un Kbis récent, les registres publics consultés indiquaient 100 € puis 1 000 €), directeur de la publication, crédits photos, adresse du site, téléphone de l'hébergeur, durée de conservation des demandes (3 ans à compter du dernier contact, durée indiquée par la CNIL pour les données de prospects), adresse e-mail (contact@vps-securite.fr, ajoutée le 10 novembre 2026), contact pour les données personnelles (même adresse e-mail), adresse de réception du formulaire de devis et date de mise à jour des pages légales.
 
-**Reste à compléter** : rien dans ce fichier ; il reste seulement les photos de la galerie (section 6).
+**Reste à compléter** : rien dans ce fichier.
 
 **Règles propres à la sécurité privée (code de la sécurité intérieure)** :
 
@@ -205,7 +207,7 @@ Si le fichier ne peut pas être lu, ou si une valeur est invalide (e-mail mal é
 | Crédits photos | `credits_photos` | mentions légales |
 | Date de mise à jour | `date_mise_a_jour` | mentions légales, confidentialité |
 | Adresse du site | `adresse_site` | adresses de référence, partage, `sitemap.xml`, `robots.txt`, fichier `CNAME` (appliquée par l'outil de préparation) |
-| Référencement | `indexation` (`oui` / `non`) | balise `robots` de chaque page et `sitemap.xml` ; la galerie reste exclue tant que ses photos sont à fournir (appliqué par l'outil de préparation) |
+| Référencement | `indexation` (`oui` / `non`) | balise `robots` de chaque page et `sitemap.xml` (appliqué par l'outil de préparation) |
 | Formulaire de devis | `adresse_reception`, `mode_envoi` | `devis.html` et `en/quote.html` (adresse d'envoi FormSubmit ; vide = formulaire inactif) |
 | Textes des pages anglaises | section `[version_anglaise]` | pages du dossier `en/` |
 
@@ -282,16 +284,29 @@ Les pages anglaises utilisent les mêmes images.
 
 **Format conseillé** pour une photo de remplacement : JPG, environ 1600 à 2400 px de large, moins de 400 Ko, image plutôt sombre, sujet au centre (le titre s'affiche en haut et les boutons en bas). Les vues de nuit sont décoratives : laissez `alt=""`. Les trois visuels « sécurité incendie » et « agents cynophiles » sont décrits (attribut `alt`) : si vous les remplacez, adaptez cette description dans `index.html`, `prestations.html` et leurs versions anglaises, et ajustez au besoin leur cadrage (règles `.visuel-incendie-ssi`, `.visuel-incendie-ronde` et `.visuel-cynophile` de `css/style.css`).
 
-### Galerie
+### Photos et vidéo réelles (accueil, L'entreprise, galerie)
 
-Dans `galerie.html` (et `en/gallery.html` pour l'anglais), chaque photo est un bloc `<li> … </li>` du carrousel. Pour remplacer un emplacement, dans les deux pages :
+Les photos et la vidéo fournies par VPS en novembre 2026 remplacent les emplacements « photo à fournir ». Les personnes reconnaissables ont donné leur accord à la diffusion de leur image : conservez ces accords par écrit (section 12).
 
-1. recadrez la photo au format 3:2 (par exemple 1800 × 1200 px), compressez-la et copiez-la dans `images/galerie/` ;
-2. remplacez `src`, puis décrivez précisément la photo dans `alt` (exemple : `alt="Trois agents VPS en tenue devant l'entrée d'un magasin"`) et mettez à jour `width` et `height` ;
-3. adaptez si besoin le titre affiché sous la photo ;
-4. supprimez les fichiers `…-a-remplacer.svg` et `…-a-remplacer-en.svg` devenus inutiles.
+**Retouche** : lumière, couleurs, netteté, bruit et défauts de compression corrigés, **sans intelligence artificielle générative** (visages, tenues et lieux inchangés). Le numéro du badge de l'agent en gilet bleu est flouté ; sur la photo du véhicule, l'enseigne du magasin est hors cadre. Les fichiers reçus par messagerie étaient déjà compressés : pour une qualité encore meilleure, repartez des fichiers originaux du téléphone.
 
-Pour **ajouter** une photo, dupliquez un bloc `<li> … </li>` complet : le compteur du carrousel se met à jour tout seul.
+| Fichier (`images/galerie/`) | Contenu | Utilisé dans |
+|---|---|---|
+| `vehicule-vps-1600.jpg` et `-800.jpg` | voiture de fonction de nuit, plaque « Site sécurisé par VPS » | galerie |
+| `equipe-vps-1200.jpg` et `-600.jpg` | trois agents à l'entrée d'un site, au lever du jour | accueil, L'entreprise, galerie |
+| `agent-acces-site-1200.jpg` et `-600.jpg` | agent devant une zone à accès restreint | galerie |
+| `agent-en-poste-1200.jpg` et `-600.jpg` | agent en gilet bleu, écusson VPS, radio | accueil, L'entreprise, galerie |
+| `vps-sur-le-terrain-apercu.jpg` | image affichée avant la lecture de la vidéo | accueil, galerie |
+
+Chaque photo existe en **deux tailles** : la vignette (`-600` ou `-800`) s'affiche dans les pages, la pleine taille sert aux grands écrans et à la visionneuse.
+
+**Vidéo** : `videos/vps-sur-le-terrain.mp4` (9 s, sans son, 720 × 900 px, 1,6 Mo) : plaque VPS sur un commerce, plaque VPS sur un stand d'événement, voiture de fonction, puis logo. Montée à partir des deux vidéos fournies (coupes, plans légèrement ralentis, son supprimé ; le cadrage écarte le filigrane TikTok et les passants). Sur l'**accueil**, elle se lit seule, sans son et en boucle lorsqu'elle est visible, avec un bouton lecture / pause ; elle ne démarre pas seule si le visiteur a demandé à réduire les animations ou à économiser les données. Dans la **galerie**, le visiteur la lance lui-même. Pour la remplacer : même nom, format MP4 (H.264), sans piste son, moins de 5 Mo ; remplacez aussi l'image d'aperçu.
+
+**Galerie** (`galerie.html` et `en/gallery.html`) : chaque photo est un bloc `<li> … </li>` de la liste `galerie-grille` ; un clic l'affiche en grand (visionneuse : flèches du clavier, glissement du doigt, `Échap` pour fermer). Pour **ajouter** une photo, dans les deux pages :
+
+1. préparez deux tailles en JPG : pleine taille (1200 px de large pour une photo en hauteur, 1600 px pour une photo en largeur, moins de 600 Ko) et vignette (600 ou 800 px), noms en minuscules sans espace ni accent, dans `images/galerie/` ;
+2. dupliquez un bloc `<li> … </li>` complet : classe `galerie-portrait` pour une photo en hauteur (3:4), `galerie-large` pour une photo en largeur (16:9) ;
+3. remplacez `href` (pleine taille), `src` et `srcset` (les deux tailles), `width` et `height` ; décrivez précisément la photo dans `alt` ; adaptez le titre, la légende et les numéros « 01 / 04 ».
 
 ### Logo
 
@@ -319,6 +334,8 @@ Dans `prestations.html` (et `en/services.html`), chaque prestation est un bloc `
 **Sécurité incendie** : prestation ajoutée le 5 novembre 2026 et validée par VPS le 6 novembre 2026.
 
 **Agents cynophiles** : prestation ajoutée le 9 novembre 2026 à la demande de VPS (bloc `id="cynophile"` de la page Prestations, 5e onglet et question de la FAQ de l'accueil, choix « Agents de sécurité cynophiles » du formulaire de devis).
+
+**Télésurveillance** : prestation ajoutée le 10 novembre 2026 à la demande de VPS, la mention figurant sur la voiture de fonction (bloc `id="telesurveillance"` de la page Prestations, choix « Télésurveillance » du formulaire de devis, colonne « Régulier » de l'accueil, ligne « Autres activités » de la page L'entreprise). Texte volontairement sobre : précisez-le si besoin (moyens de réception des alertes, modalités d'intervention).
 
 ### Références
 
@@ -372,7 +389,7 @@ Tant que l'activation n'est pas faite, la page affiche « Le formulaire est en c
 
 **Réglage actuel** : `indexation = oui` dans `config/infos-vps.ini` (depuis le 10 novembre 2026). Les pages portent la balise `index, follow` et figurent dans `sitemap.xml`, sauf :
 
-- la **galerie** (`galerie.html`, `en/gallery.html`) : tant qu'elle affiche des emplacements « photo à fournir », elle garde la balise `noindex` et sa ligne de `sitemap.xml` est mise en commentaire. Dès que les vraies photos remplacent les emplacements, l'outil de préparation l'ouvre automatiquement aux moteurs de recherche ;
+- toute page qui afficherait un emplacement « photo à fournir » (fichier `…-a-remplacer.svg`) : elle garderait la balise `noindex` et sa ligne de `sitemap.xml` serait mise en commentaire. La galerie, qui affiche désormais les vraies photos, est référencée ;
 - la page `404.html`, jamais référencée.
 
 Pour bloquer de nouveau tout le référencement : `indexation = non`, puis lancez l'outil de préparation. Sans Python, utilisez « Rechercher et remplacer dans les fichiers » de Visual Studio Code (`Ctrl + Maj + H`) : `content="index, follow" data-info-meta="indexation"` devient `content="noindex" data-info-meta="indexation"` (et inversement pour rouvrir).
@@ -473,10 +490,11 @@ Dans le dépôt, ouvrez le dossier concerné (par exemple `images/galerie/`), pu
 
 - [x] Adresse e-mail contact@vps-securite.fr ajoutée sur le site.
 - [x] Formulaire de devis activé et testé depuis le site en ligne (10 novembre 2026).
-- [x] Référencement ouvert (`indexation = oui`) ; galerie exclue tant que ses photos sont à fournir.
+- [x] Référencement ouvert (`indexation = oui`), galerie comprise depuis l'ajout des vraies photos.
 - [x] Domaine relié le 10 novembre 2026 (zone DNS OVHcloud, vérification GitHub, Custom domain, certificat HTTPS délivré).
-- [ ] **Enforce HTTPS** coché dans Settings › Pages, puis demande de devis test depuis https://www.vps-securite.fr (section 10, étapes 5 et 6).
-- [ ] Photos de la galerie ajoutées, dans les deux langues (accord des personnes photographiées, plaques et détails sensibles vérifiés, crédits indiqués), puis outil de préparation relancé.
+- [x] **Enforce HTTPS** coché dans Settings › Pages (vérifié le 10 novembre 2026 : l'adresse en http redirige vers https).
+- [x] Photos et vidéo réelles ajoutées dans les deux langues (accord des personnes photographiées confirmé par VPS, numéro de badge flouté, crédits indiqués).
+- [ ] Accord écrit des sites ou des clients dont le nom ou le logo est lisible sur une photo ou dans la vidéo.
 - [ ] Capital social vérifié sur un Kbis récent.
 - [ ] Site déclaré dans Google Search Console avec son `sitemap.xml` (section 9).
 - [ ] Tests sur téléphone, tablette et ordinateur, dans les deux langues ; `python outils/verifier_site.py --publication` sans erreur.

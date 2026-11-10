@@ -1,7 +1,7 @@
 # robots.txt — site VPS – Vigilance Protection Sécurité
 # Adresse du site : « adresse_site » dans config/infos-vps.ini.
-# Les pages qui portent la balise « noindex » ne sont pas indexées (la galerie tant que
-# ses photos sont à fournir, et la page 404).
+# Les pages qui portent la balise « noindex » ne sont pas indexées (la page 404, et toute
+# page qui afficherait de nouveau un emplacement « photo à fournir »).
 User-agent: *
 Allow: /
 

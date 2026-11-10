@@ -4,10 +4,10 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Galerie | VPS – Vigilance Protection Sécurité</title>
-  <meta name="description" content="VPS en images : l'équipe, la voiture de fonction et la présence de VPS – Vigilance Protection Sécurité sur le terrain, à Marseille.">
+  <meta name="description" content="Photos et vidéo réelles de VPS – Vigilance Protection Sécurité, société de sécurité privée à Marseille : l'équipe, la voiture de fonction, les sites sécurisés.">
   <!-- Indexation par les moteurs de recherche : « indexation » dans config/infos-vps.ini,
        appliquée avant la mise en ligne (voir README.md, section 9). -->
-  <meta name="robots" content="noindex" data-info-meta="indexation">
+  <meta name="robots" content="index, follow" data-info-meta="indexation">
   <!-- Référencement et partage. Adresse du site : « adresse_site » dans config/infos-vps.ini. -->
   <link rel="canonical" href="https://www.vps-securite.fr/galerie.html">
   <link rel="alternate" hreflang="fr" href="https://www.vps-securite.fr/galerie.html">
@@ -18,7 +18,7 @@
   <meta property="og:locale:alternate" content="en_GB">
   <meta property="og:site_name" content="VPS – Vigilance Protection Sécurité">
   <meta property="og:title" content="Galerie | VPS – Vigilance Protection Sécurité">
-  <meta property="og:description" content="VPS en images : l'équipe, la voiture de fonction et la présence de VPS – Vigilance Protection Sécurité sur le terrain, à Marseille.">
+  <meta property="og:description" content="Photos et vidéo réelles de VPS – Vigilance Protection Sécurité, société de sécurité privée à Marseille : l'équipe, la voiture de fonction, les sites sécurisés.">
   <meta property="og:url" content="https://www.vps-securite.fr/galerie.html">
   <meta property="og:image" content="https://www.vps-securite.fr/images/partage/vps-partage.jpg">
   <meta property="og:image:width" content="1200">
@@ -90,51 +90,88 @@
       <div class="heros-haut">
         <p class="label">[ Galerie ]</p>
         <h1 id="titre-page" class="heros-titre">VPS en images.</h1>
-        <p class="heros-texte">L’équipe, le véhicule et la présence de VPS sur le terrain.</p>
+        <p class="heros-texte">Photos et vidéo réelles : l’équipe, la voiture de fonction et la présence de VPS sur le terrain.</p>
       </div>
     </section>
 
-    <section class="section" aria-labelledby="titre-photos">
-      <div class="conteneur">
-        <h2 id="titre-photos" class="visuellement-cache">Photos</h2>
+    <section class="section" aria-labelledby="titre-video">
+      <div class="conteneur video-bloc">
+        <div class="video-texte">
+          <p class="label"><b>[ 01 ]</b> Vidéo</p>
+          <h2 id="titre-video" class="apparition">Sur le terrain.</h2>
+          <p id="description-video">Vidéo sans son (9 s) : la plaque « Site sécurisé par VPS » sur la façade d’un commerce, puis sur un stand d’événement installé sur un quai, et la voiture de fonction aux couleurs de VPS.</p>
+        </div>
+        <figure class="video-cadre apparition">
+          <video controls muted playsinline preload="none" poster="images/galerie/vps-sur-le-terrain-apercu.jpg" width="720" height="900" aria-describedby="description-video">
+            <source src="videos/vps-sur-le-terrain.mp4" type="video/mp4">
+            <p>Votre navigateur ne peut pas lire cette vidéo. <a href="videos/vps-sur-le-terrain.mp4">Télécharger la vidéo (MP4)</a></p>
+          </video>
+        </figure>
       </div>
-      <!-- GALERIE : pour remplacer ou ajouter une photo, voir README.md (pensez aux deux langues).
-           Chaque photo = un bloc « li » complet (image, texte alternatif, légende). -->
-      <div class="carrousel" data-carrousel>
-        <ul class="carrousel-piste" tabindex="0" aria-label="Photos de VPS, à faire défiler horizontalement">
-          <li>
+    </section>
+
+    <section class="section section--sans-haut" aria-labelledby="titre-photos">
+      <div class="conteneur">
+        <div class="titre-section">
+          <p class="label"><b>[ 02 ]</b> Photos</p>
+          <div>
+            <h2 id="titre-photos" class="apparition">Nos agents, notre véhicule.</h2>
+            <p>Touchez ou cliquez sur une photo pour l’afficher en grand.</p>
+          </div>
+        </div>
+        <!-- GALERIE : pour remplacer ou ajouter une photo, voir README.md, section 6 (pensez aux deux langues).
+             Chaque photo = un bloc « li » complet (lien vers la grande photo, image, texte alternatif, légende). -->
+        <ul class="galerie-grille">
+          <li class="galerie-large apparition" id="photo-vehicule">
             <figure>
-              <img src="images/galerie/equipe-a-remplacer.svg" alt="Emplacement réservé à la photo de l'équipe VPS (photo réelle à fournir)" width="1200" height="800" loading="lazy" decoding="async">
+              <a class="galerie-lien" href="images/galerie/vehicule-vps-1600.jpg" data-visionneuse>
+                <span class="visuellement-cache">Agrandir la photo : </span><img class="photo-vehicule" src="images/galerie/vehicule-vps-800.jpg" srcset="images/galerie/vehicule-vps-800.jpg 800w, images/galerie/vehicule-vps-1600.jpg 1600w" sizes="(min-width: 90em) 1328px, 92vw" alt="Voiture de fonction blanche aux couleurs de VPS, portant les mentions sécurité privée, sécurité incendie, télésurveillance, gardiennage, agent cynophile et le numéro 06 03 04 00 78, garée de nuit devant l'entrée éclairée d'un magasin ; à droite, une plaque « Site sécurisé par VPS » est fixée sur la façade" width="1600" height="900" loading="lazy" decoding="async">
+              </a>
               <figcaption>
-                <span class="label">01 / 03</span>
-                <span class="galerie-titre">L’équipe VPS</span>
-              </figcaption>
-            </figure>
-          </li>
-          <li>
-            <figure>
-              <img src="images/galerie/vehicule-a-remplacer.svg" alt="Emplacement réservé à la photo de la voiture de fonction VPS (photo réelle à fournir)" width="1200" height="800" loading="lazy" decoding="async">
-              <figcaption>
-                <span class="label">02 / 03</span>
+                <span class="label">01 / 04</span>
                 <span class="galerie-titre">La voiture de fonction VPS</span>
+                <span class="galerie-legende">De nuit, devant un site signalé par la plaque « Site sécurisé par VPS ».</span>
               </figcaption>
             </figure>
           </li>
-          <li>
+          <li class="galerie-portrait apparition" id="photo-equipe">
             <figure>
-              <img src="images/galerie/devanture-a-remplacer.svg" alt="Emplacement réservé à la photo d'une devanture portant la plaque VPS (photo réelle à fournir)" width="1200" height="800" loading="lazy" decoding="async">
+              <a class="galerie-lien" href="images/galerie/equipe-vps-1200.jpg" data-visionneuse>
+                <span class="visuellement-cache">Agrandir la photo : </span><img class="photo-equipe" src="images/galerie/equipe-vps-600.jpg" srcset="images/galerie/equipe-vps-600.jpg 600w, images/galerie/equipe-vps-1200.jpg 1200w" sizes="(min-width: 90em) 427px, (min-width: 48em) 30vw, 92vw" alt="Trois agents de sécurité VPS en tenue noire et gilet jaune « Sécurité » portant l'écusson VPS, debout côte à côte sur un chemin à l'entrée d'un site boisé, au lever du jour" width="1200" height="1600" loading="lazy" decoding="async">
+              </a>
               <figcaption>
-                <span class="label">03 / 03</span>
-                <span class="galerie-titre">Plaque VPS sur la devanture d’un site</span>
+                <span class="label">02 / 04</span>
+                <span class="galerie-titre">L’équipe VPS en poste</span>
+                <span class="galerie-legende">Trois agents à l’entrée d’un site, au lever du jour.</span>
+              </figcaption>
+            </figure>
+          </li>
+          <li class="galerie-portrait apparition" id="photo-acces">
+            <figure>
+              <a class="galerie-lien" href="images/galerie/agent-acces-site-1200.jpg" data-visionneuse>
+                <span class="visuellement-cache">Agrandir la photo : </span><img class="photo-acces" src="images/galerie/agent-acces-site-600.jpg" srcset="images/galerie/agent-acces-site-600.jpg 600w, images/galerie/agent-acces-site-1200.jpg 1200w" sizes="(min-width: 90em) 427px, (min-width: 48em) 30vw, 92vw" alt="Agent de sécurité VPS en gilet jaune « Sécurité », debout à l'entrée d'un chemin forestier, à côté d'une barrière portant une banderole « Restricted Area »" width="1200" height="1600" loading="lazy" decoding="async">
+              </a>
+              <figcaption>
+                <span class="label">03 / 04</span>
+                <span class="galerie-titre">À l’entrée d’un site</span>
+                <span class="galerie-legende">Un agent en poste devant une zone à accès restreint.</span>
+              </figcaption>
+            </figure>
+          </li>
+          <li class="galerie-portrait apparition" id="photo-agent">
+            <figure>
+              <a class="galerie-lien" href="images/galerie/agent-en-poste-1200.jpg" data-visionneuse>
+                <span class="visuellement-cache">Agrandir la photo : </span><img class="photo-agent" src="images/galerie/agent-en-poste-600.jpg" srcset="images/galerie/agent-en-poste-600.jpg 600w, images/galerie/agent-en-poste-1200.jpg 1200w" sizes="(min-width: 90em) 427px, (min-width: 48em) 30vw, 92vw" alt="Agent de sécurité VPS en polo bleu marine et gilet bleu réfléchissant portant l'écusson VPS, radio à la ceinture, debout devant des portes de sortie de secours" width="1200" height="1600" loading="lazy" decoding="async">
+              </a>
+              <figcaption>
+                <span class="label">04 / 04</span>
+                <span class="galerie-titre">Un agent VPS en tenue</span>
+                <span class="galerie-legende">Gilet réfléchissant, écusson VPS et radio.</span>
               </figcaption>
             </figure>
           </li>
         </ul>
-        <div class="carrousel-controles">
-          <button class="carrousel-bouton" type="button" data-precedent aria-label="Photo précédente"><svg class="icone" viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M15 6l-6 6 6 6"/></svg></button>
-          <span class="carrousel-compteur">01 / 03</span>
-          <button class="carrousel-bouton" type="button" data-suivant aria-label="Photo suivante"><svg class="icone" viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M9 6l6 6-6 6"/></svg></button>
-        </div>
+        <p class="galerie-note">Photos et vidéo : VPS – Vigilance Protection Sécurité. Les personnes reconnaissables ont donné leur accord à la diffusion de leur image.</p>
       </div>
     </section>
 
