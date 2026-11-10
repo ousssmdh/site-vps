@@ -260,7 +260,7 @@ Balises `<title>` et `<meta name="description">` en haut de chaque page (ainsi q
 
 ### Visuels d'ambiance, « sécurité incendie » et « agents cynophiles »
 
-Les 7 images du dossier `images/ambiance/` ont été **générées par intelligence artificielle** pour illustrer le site :
+Les 7 images du dossier `images/ambiance/` ont été **générées par intelligence artificielle** pour illustrer le site (ce que précisent les crédits des mentions légales, section 6, depuis le 10 novembre 2026) :
 
 - **4 photos aériennes de nuit** (sites, bureaux, commerces, événements) : elles ne montrent ni l'équipe, ni les sites, ni les clients de VPS (aucune personne reconnaissable, aucun logo). Vous avez choisi de les conserver : la mention « Visuel d'ambiance provisoire » a été retirée le 6 novembre 2026 ;
 - **2 visuels « sécurité incendie »** (ajoutés le 9 novembre 2026) : un agent en tenue « SÉCURITÉ INCENDIE » devant le tableau du système de sécurité incendie (SSI), et une ronde de contrôle d'un extincteur et d'un robinet d'incendie armé. Les agents représentés ne sont pas des membres de l'équipe VPS (visages non visibles, aucun logo) : vous pourrez les remplacer par de vraies photos de vos agents, avec leur accord.
@@ -354,6 +354,7 @@ Tant que l'activation n'est pas faite, la page affiche « Le formulaire est en c
 ### Bon à savoir
 
 - **Confirmation honnête** : « Merci : votre demande a bien été envoyée » ne s'affiche **que si FormSubmit confirme la réception**. En cas d'échec, la page invite à réessayer ou à utiliser la page Contact ; l'adresse e-mail est aussi affichée sous le bouton d'envoi.
+- **Délai de confirmation** : FormSubmit répond souvent en quelques secondes, mais peut mettre **1 à 2 minutes** (constaté le 10 novembre 2026) ; ce délai vient du service, pas du site. Pendant l'attente, le bouton affiche « Envoi en cours… » et reste bloqué (pas de doublon), une barre animée tourne sous le message, le visiteur est prévenu que la confirmation peut prendre jusqu'à deux minutes, et le navigateur demande confirmation s'il tente de quitter la page. Au bout de 15 secondes, le message précise que l'envoi est toujours en cours ; au bout de 2 min 30, qu'il n'y a pas encore de confirmation ; au bout de 5 minutes sans réponse, l'attente s'arrête et le visiteur est invité à vous contacter plutôt qu'à renvoyer. Ces délais se règlent en tête de la fonction `envoyer` de `js/main.js`. Si la lenteur devient gênante, un autre service peut remplacer FormSubmit (voir « Données personnelles » ci-dessous).
 - **Anti-spam** : un champ invisible (`_honey`) écarte les robots qui le remplissent. En cas de demandes indésirables, FormSubmit permet d'ajouter un champ caché `_blacklist` (liste de mots à bloquer).
 - **Changement d'adresse du site** (passage au domaine www.vps-securite.fr) : FormSubmit peut redemander une confirmation ; refaites alors les étapes 1 et 2. Les demandes envoyées en attendant sont conservées par FormSubmit (30 jours selon son aide en ligne) et transmises après le clic.
 - **Masquer l'adresse dans le code** (facultatif) : après l'activation, FormSubmit fournit une adresse de remplacement aléatoire, à mettre à la place de `contact@vps-securite.fr` à la fin de `adresse_reception`. Ce n'est pas indispensable : l'adresse est déjà affichée sur le site.

@@ -445,6 +445,11 @@ html.menu-ouvert { overflow: hidden; }
 .formulaire-alternative { width: 100%; margin: 0; color: var(--doux); font-size: .875rem; }
 .formulaire-alternative a { color: var(--papier); white-space: nowrap; }
 .formulaire-alternative:not(:has(a)) { display: none; } /* masqué tant que l'e-mail est vide */
+/* Envoi en cours : le service de réception peut mettre 1 à 2 minutes à confirmer */
+.formulaire.est-en-cours .bouton:disabled { cursor: progress; }
+.formulaire.est-en-cours .statut-formulaire::after { content: ""; display: block; width: 100%; max-width: 20rem; height: 2px; margin-top: 14px; background: linear-gradient(90deg, transparent, var(--accent), transparent) 0 0 / 40% 100% no-repeat; animation: envoi-en-cours 1.6s linear infinite; }
+@keyframes envoi-en-cours { from { background-position: -70% 0; } to { background-position: 170% 0; } }
+@media (prefers-reduced-motion: reduce) { .formulaire.est-en-cours .statut-formulaire::after { animation: none; background: var(--accent); opacity: .5; } }
 
 /* 14. Contact et pages légales ------------------------------------------------------------------ */
 .contact { display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); gap: 48px 24px; }

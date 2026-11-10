@@ -468,6 +468,10 @@
     });
 
     form.addEventListener('submit', function (evenement) {
+      if (form.getAttribute('aria-busy') === 'true') {
+        evenement.preventDefault();
+        return;
+      }
       var premierInvalide = verifierFormulaire(form);
       if (premierInvalide) {
         evenement.preventDefault();
@@ -482,26 +486,73 @@
       // Mode « ajax » (par défaut) : envoi en arrière-plan, confirmation
       // affichée UNIQUEMENT si le service confirme la bonne réception.
       evenement.preventDefault();
-      bouton.disabled = true;
-      afficherStatut(statut, t('Envoi en cours…', 'Sending…'), '');
-
-      fetch(adresse, {
-        method: 'POST',
-        body: new URLSearchParams(new FormData(form)),
-        headers: { Accept: 'application/json' }
-      })
-        .then(lireReponse)
-        .then(function () {
-          form.reset();
-          afficherStatut(statut, t('Merci : votre demande a bien été envoyée.', 'Thank you: your request has been sent.'), 'succes');
-        })
-        .catch(function (erreur) {
-          afficherStatut(statut, messageEchec(erreur), 'erreur');
-        })
-        .then(function () {
-          bouton.disabled = false;
-        });
+      envoyer(form, adresse, bouton, statut);
     });
+  }
+
+  // Le service de réception (FormSubmit) peut mettre 1 à 2 minutes à confirmer une
+  // demande. Pendant l'attente : le visiteur est prévenu, le bouton reste bloqué
+  // (pas de doublon) et la page demande confirmation avant d'être quittée.
+  // Délais en secondes, modifiables :
+  var DELAI_PATIENCE = 15;   // message « envoi toujours en cours »
+  var DELAI_INCERTAIN = 150; // message « pas encore de confirmation »
+  var DELAI_ABANDON = 300;   // fin de l'attente : le bouton redevient utilisable
+
+  function envoyer(form, adresse, bouton, statut) {
+    var libelle = bouton.textContent;
+    var minuteurs = [];
+    var controleur = typeof window.AbortController === 'function' ? new window.AbortController() : null;
+
+    function avantDeQuitter(evenement) {
+      evenement.preventDefault();
+      evenement.returnValue = '';
+      return '';
+    }
+    function terminer() {
+      minuteurs.forEach(window.clearTimeout);
+      window.removeEventListener('beforeunload', avantDeQuitter);
+      form.removeAttribute('aria-busy');
+      form.classList.remove('est-en-cours');
+      bouton.disabled = false;
+      bouton.textContent = libelle;
+    }
+
+    bouton.disabled = true;
+    bouton.textContent = t('Envoi en cours…', 'Sending…');
+    form.setAttribute('aria-busy', 'true');
+    form.classList.add('est-en-cours');
+    window.addEventListener('beforeunload', avantDeQuitter);
+    afficherStatut(statut, t('Envoi en cours… La confirmation peut prendre jusqu’à deux minutes : merci de ne pas fermer cette page.', 'Sending… Confirmation can take up to two minutes: please do not close this page.'), '');
+    minuteurs.push(window.setTimeout(function () {
+      afficherStatut(statut, t('Envoi toujours en cours : le service de réception peut être lent à confirmer. Merci de patienter, sans renvoyer le formulaire.', 'Still sending: the receiving service can be slow to confirm. Please wait and do not resend the form.'), '');
+    }, DELAI_PATIENCE * 1000));
+    minuteurs.push(window.setTimeout(function () {
+      afficherStatut(statut, t('Toujours pas de confirmation. Votre demande a peut-être déjà été transmise : merci de patienter encore un peu avant de la renvoyer.', 'Still no confirmation. Your request may already have been delivered: please wait a little longer before resending it.'), '');
+    }, DELAI_INCERTAIN * 1000));
+    if (controleur) {
+      minuteurs.push(window.setTimeout(function () { controleur.abort(); }, DELAI_ABANDON * 1000));
+    }
+
+    fetch(adresse, {
+      method: 'POST',
+      body: new URLSearchParams(new FormData(form)),
+      headers: { Accept: 'application/json' },
+      signal: controleur ? controleur.signal : undefined
+    })
+      .then(lireReponse)
+      .then(function () {
+        terminer();
+        form.reset();
+        afficherStatut(statut, t('Merci : votre demande a bien été envoyée.', 'Thank you: your request has been sent.'), 'succes');
+      })
+      .catch(function (erreur) {
+        terminer();
+        if (erreur && erreur.name === 'AbortError') {
+          afficherStatut(statut, t('Aucune confirmation reçue. Votre demande a peut-être été transmise ; en cas de doute, contactez-nous (coordonnées sur la page Contact) plutôt que de la renvoyer.', 'No confirmation received. Your request may have been delivered; if in doubt, contact us (details on the Contact page) rather than resending it.'), 'erreur');
+        } else {
+          afficherStatut(statut, messageEchec(erreur), 'erreur');
+        }
+      });
   }
 
   // FormSubmit : adresse « /ajax/ » pour l'envoi en arrière-plan, sans « /ajax/ »
