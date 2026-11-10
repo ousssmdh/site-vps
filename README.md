@@ -162,7 +162,7 @@ Sources : **autorisation d'exercer délivrée par le CNAPS** (document fourni) e
 | RCS | Marseille 929 091 593 | mentions, confidentialité |
 | TVA intracommunautaire | FR64929091593 | mentions légales |
 
-**Déjà renseignés** dans `config/infos-vps.ini` : téléphone, zone d'intervention, capital social (5 000 € : vérifiez-le sur un Kbis récent, les registres publics consultés indiquaient 100 € puis 1 000 €), directeur de la publication, crédits photos, adresse du site, téléphone de l'hébergeur, durée de conservation des demandes (3 ans à compter du dernier contact, durée indiquée par la CNIL pour les données de prospects), adresse e-mail (contact@vps-securite.fr, ajoutée le 10 novembre 2026), contact pour les données personnelles (même adresse e-mail), adresse de réception du formulaire de devis et date de mise à jour des pages légales.
+**Déjà renseignés** dans `config/infos-vps.ini` : téléphone, zone d'intervention, capital social (5 000 €, montant confirmé par VPS le 10 novembre 2026), directeur de la publication, crédits photos, adresse du site, téléphone de l'hébergeur, durée de conservation des demandes (3 ans à compter du dernier contact, durée indiquée par la CNIL pour les données de prospects), adresse e-mail (contact@vps-securite.fr, ajoutée le 10 novembre 2026), contact pour les données personnelles (même adresse e-mail), adresse de réception du formulaire de devis et date de mise à jour des pages légales.
 
 **Reste à compléter** : rien dans ce fichier.
 
@@ -495,7 +495,7 @@ Dans le dépôt, ouvrez le dossier concerné (par exemple `images/galerie/`), pu
 - [x] **Enforce HTTPS** coché dans Settings › Pages (vérifié le 10 novembre 2026 : l'adresse en http redirige vers https).
 - [x] Photos et vidéo réelles ajoutées dans les deux langues (accord des personnes photographiées confirmé par VPS, numéro de badge flouté, crédits indiqués).
 - [ ] Accord écrit des sites ou des clients dont le nom ou le logo est lisible sur une photo ou dans la vidéo.
-- [ ] Capital social vérifié sur un Kbis récent.
+- [x] Capital social confirmé par VPS : 5 000 € (10 novembre 2026).
 - [ ] Site déclaré dans Google Search Console avec son `sitemap.xml` (section 9).
 - [ ] Tests sur téléphone, tablette et ordinateur, dans les deux langues ; `python outils/verifier_site.py --publication` sans erreur.
 
