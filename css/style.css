@@ -690,8 +690,8 @@ html[data-theme="clair"] .alerte-locale { background: #e9c47a; color: #05080f; }
 .video-bouton svg { width: 18px; height: 18px; }
 .video-bouton .icone-pause, .video-bouton.est-en-lecture .icone-lecture { display: none; }
 .video-bouton.est-en-lecture .icone-pause { display: block; }
-/* Galerie : vidéo et texte */
-.video-bloc { display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); gap: 48px 24px; align-items: end; }
+/* Galerie : vidéo et texte (texte aligné sur le haut de la vidéo) */
+.video-bloc { display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); gap: 48px 24px; align-items: start; }
 .video-texte { grid-column: 1 / 6; }
 .video-texte h2 { margin-top: 28px; font-size: clamp(2.25rem, 4.8vw, 5rem); line-height: 1; letter-spacing: -.04em; }
 .video-texte p:not(.label) { max-width: 30rem; margin-top: 24px; color: var(--doux); font-size: 1.0625rem; }
